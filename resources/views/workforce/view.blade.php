@@ -790,7 +790,6 @@
                                 <li class=""><a href="#tab-51" class="active show" data-toggle="tab">Profile</a></li>
                                 @if(Auth::user()->id == $user->id)
                                 <li><a href="#tab-61" data-toggle="tab" class="">Profile Picture</a></li>
-                                <li><a href="#tab-71" data-toggle="tab" class="">Settings</a></li>
                                 <li><a href="#tab-81" data-toggle="tab" class="">Change Password</a></li>
                                 @endif
                             </ul>
@@ -1083,8 +1082,8 @@
                             <form action="{{route('change-avatar', ['account'=>$account])}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="file" name="avatar">
-                                    @error('avatar') <i class="text-danger">{{$message}}</i>@enderror
+                                    <input type="file" name="passportPhoto" class="form-control-file">
+                                    @error('passportPhoto') <i class="text-danger">{{$message}}</i>@enderror
                                 </div>
                                 <div class="form-group d-flex justify-content-center">
                                     <button class="btn btn-primary">Save Image</button>
@@ -1092,65 +1091,6 @@
                             </form>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane" id="tab-71">
-                    <form action="{{route('update-profile', ['account'=>$account])}}" method="post">
-                        @csrf
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Edit Profile</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-12">
-                                        <div class="form-group">
-                                            <label for="exampleInputname">First Name</label>
-                                            <input type="text" name="first_name" class="form-control" value="{{$user->first_name ?? '' }}" placeholder="First Name">
-                                            @error('first_name') <i class="text-danger">{{$message}}</i>@enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-12">
-                                        <div class="form-group">
-                                            <label for="exampleInputname1">Surname</label>
-                                            <input type="text" name="last_name" class="form-control" value="{{$user->surname ?? '' }}" placeholder="Enter Last Name">
-                                            @error('last_name') <i class="text-danger">{{$message}}</i>@enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" class="form-control" readonly value="{{$user->email ?? '' }}"  placeholder="Email address">
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputnumber">Mobile No.</label>
-                                    <input type="number" name="mobile_no" class="form-control" value="{{$user->mobile_no ?? '' }}" placeholder="Mobile No.">
-                                    @error('mobile_no') <i class="text-danger">{{$message}}</i>@enderror
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Address</label>
-                                    <textarea class="form-control" name="address" placeholder="Enter address" rows="2">{{$user->address ?? '' }}</textarea>
-                                    @error('address') <i class="text-danger">{{$message}}</i>@enderror
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Gender</label>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <select class="form-control select2 select2-hidden-accessible" name="gender" tabindex="-1" aria-hidden="true">
-                                                <option disabled selected>--Select gender--</option>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    @error('gender') <i class="text-danger">{{$message}}</i>@enderror
-                                </div>
-                            </div>
-                            <div class="card-footer d-flex justify-content-center">
-                                <button type="submit" class="btn btn-success mt-1">Save changes</button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
                 <div class="tab-pane" id="tab-81">
                     <div class="row">

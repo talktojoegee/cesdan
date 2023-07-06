@@ -22,9 +22,10 @@ class IndexController extends Controller
     }
 
     public function index(){
-        return view('frontend.index',[
+        return redirect()->route('login');
+       /* return view('frontend.index',[
             'items'=>$this->item->getItemsAtRandom()
-        ]);
+        ]);*/
     }
 
     public function marketplace(){

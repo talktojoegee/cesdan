@@ -194,12 +194,15 @@ class User extends Authenticatable implements JWTSubject
         $user->save();
     }
     public function updateAvatar(Request $request){
-        if($request->hasFile('avatar'))
+        if($request->hasFile('passportPhoto'))
         {
             $extension = $request->passportPhoto->getClientOriginalExtension();
             $filename = Str::slug(Auth::user()->first_name).'_' . uniqid(). '.' . $extension;
             $dir = 'assets/drive/';
             $request->passportPhoto->move(public_path($dir), $filename);
+            $user = User::find(Auth::user()->id);
+            $user->avatar = $filename;
+            $user->save();
             return $filename;
         }
     }

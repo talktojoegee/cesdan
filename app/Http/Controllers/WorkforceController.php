@@ -212,11 +212,11 @@ class WorkforceController extends Controller
 
     public function changeAvatar(Request $request){
         $this->validate($request,[
-            'avatar'=>'required'
+            'passportPhoto'=>'required'
         ],[
-            'avatar.required'=>'Choose profile picture to upload.'
+            'passportPhoto.required'=>'Choose profile picture to upload.'
         ]);
-        if($request->hasFile('avatar')){
+        if($request->hasFile('passportPhoto')){
             $this->user->updateAvatar($request);
         }
         session()->flash("success", "Your profile picture was changed.");

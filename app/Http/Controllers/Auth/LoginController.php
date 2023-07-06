@@ -67,7 +67,8 @@ class LoginController extends Controller
                     session()->flash("error", "Your profile is not complete. Kindly take a moment to enter the necessary information.");
                     return redirect()->route('view-profile', $user->slug);
                 }
-                return redirect()->route('dashboard');
+                return redirect()->route('view-profile', $user->slug);
+                //return redirect()->route('dashboard');
             }else{
                 session()->flash("error", " Wrong or invalid login credentials. Try again.");
                 return back();
