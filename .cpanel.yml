@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    # - export DEPLOYPATH=/home/connexxtel/public_html/
+    - export DEPLOYPATH=/home/cidsan/members.cidsan.org/
+    - /bin/cp -R * $DEPLOYPATH
