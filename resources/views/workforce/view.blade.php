@@ -127,9 +127,8 @@
                                                 <label>Nationality: <sup class="text-danger">*</sup></label>
                                                 <select name="nationality" id="nationality" class="form-control">
                                                     <option selected disabled>-- Select country --</option>
-                                                    @foreach($countries as $country)
-                                                        <option value="{{$country->id}}">{{ ucfirst(strtolower($country->name)) }}</option>
-                                                    @endforeach
+                                                    <option value="156">Nigeria</option>
+
                                                 </select>
                                                 @error('nationality') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                             </div>
@@ -160,48 +159,8 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row">
-                                        <div class="col-md-4 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Contact Address: <sup class="text-danger">*</sup></label>
-                                                <textarea placeholder="Contact Address" name="contactAddress" id="contactAddress" style="resize: none;"
-                                                          class="form-control">{{old('contactAddress')}}</textarea>
-                                                @error('contactAddress') <i class="text-danger mt-2">{{$message}}</i> @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Contact City: <sup class="text-danger">*</sup></label>
-                                                <input type="text" name="contactCity" placeholder="Contact City" value="{{old('contactCity')}}" class="form-control">
-                                                @error('contactCity') <i class="text-danger mt-2">{{$message}}</i> @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Contact State: <sup class="text-danger">*</sup></label>
-                                                <select name="contactState" id="contactState" class="form-control">
-                                                    <option selected disabled>-- Select State --</option>
-                                                    @foreach($states as $st)
-                                                        <option value="{{$st->id}}">{{ ucfirst($st->state_name) }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('contactState') <i class="text-danger mt-2">{{$message}}</i> @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4 col-lg-4">
-                                            <div class="form-group">
-                                                <label>Contact Country: <sup class="text-danger">*</sup></label>
-                                                <select name="contactCountry" id="contactCountry" class="form-control">
-                                                    <option selected disabled>-- Select country --</option>
-                                                    @foreach($countries as $count)
-                                                        <option value="{{$count->id}}">{{ ucfirst(strtolower($count->name)) }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('contactCountry') <i class="text-danger mt-2">{{$message}}</i> @enderror
-                                            </div>
-                                        </div>
                                         <div class="col-md-4 col-lg-4">
                                             <div class="form-group">
                                                 <label>Geopolitical Zone: <sup class="text-danger">*</sup></label>
@@ -216,7 +175,7 @@
                                         </div>
                                         <div class="col-md-4 col-lg-4">
                                             <div class="form-group">
-                                                <label>Heard of ICAN from: <sup class="text-danger">*</sup></label>
+                                                <label>Heard of CIDSAN from: <sup class="text-danger">*</sup></label>
                                                 <select name="heardIcan" id="heardIcan" class="form-control">
                                                     <option selected disabled>-- Select option --</option>
                                                     <option value="1">Catch Them Young Programme</option>
@@ -545,30 +504,6 @@
                                         </div>
 
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12 mb-3">
-                                            <div class="card-header"> <strong class="text-info">ATSWA Final/Qualifying Exam Detail</strong></div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Examination Number: <sup class="text-danger">*</sup></label>
-                                                        <input type="text" name="examinationNumber" placeholder="Examination Number" value="{{old('examinationNumber')}}" class="form-control">
-                                                        @error('examinationNumber') <i class="text-danger mt-2">{{$message}}</i> @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Examination Year: <sup class="text-danger">*</sup></label>
-                                                        <input type="text" name="examinationYear" placeholder="Examination Year" value="{{old('examinationYear')}}" class="form-control">
-                                                        @error('examinationYear') <i class="text-danger mt-2">{{$message}}</i> @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
                                 </div>
                             </div>
                             <div class="list-group-item py-4" data-acc-step>
@@ -851,7 +786,7 @@
                                             <td><strong>Contact Country :</strong> {{$user->getCountryById($user->contact_country)->name }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Heard of ICAN from :</strong> {{$user->gender == 1 ? 'Male' : 'Female' }}</td>
+                                            <td><strong>Heard of CIDSAN from :</strong> {{$user->gender == 1 ? 'Male' : 'Female' }}</td>
                                         </tr>
 
 

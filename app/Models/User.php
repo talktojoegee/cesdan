@@ -130,7 +130,7 @@ class User extends Authenticatable implements JWTSubject
         $user->save();
     }
 
-    public function     updateProfile(Request $request)
+    public function updateProfile(Request $request)
     {
         $user = User::find(Auth::user()->id);
         $user->first_name = $request->firstName ?? Auth::user()->first_name;
@@ -144,10 +144,10 @@ class User extends Authenticatable implements JWTSubject
         $user->nationality = $request->nationality;
         $user->state_origin = $request->stateOfOrigin;
         $user->lga = 1; //$request->stateOfOrigin;
-        $user->contact_address = $request->contactAddress ?? null;
-        $user->contact_city = $request->contactCity ?? null;
-        $user->contact_state = $request->contactState ?? null;
-        $user->contact_country = $request->contactCountry ?? null;
+        //$user->contact_address = $request->contactAddress ?? null;
+        //$user->contact_city = $request->contactCity ?? null;
+        //$user->contact_state = $request->contactState ?? null;
+        //$user->contact_country = $request->contactCountry ?? null;
         $user->geo_zone = $request->geopoliticalZone ?? null;
         $user->heard_ican = $request->heardIcan ?? null;
         $user->residential_address = $request->residentialAddress ?? null;
@@ -178,8 +178,8 @@ class User extends Authenticatable implements JWTSubject
         $user->professional_qualification_year = $request->professionalQualificationYear ?? null;
         $user->second_professional_qualification = $request->secondProfessionalQualification ?? null;
         $user->second_professional_qualification_year = $request->secondProfessionalQualificationYear ?? null;
-        $user->examination_no = $request->examinationNumber ?? null;
-        $user->examination_year = $request->examinationYear ?? null;
+        //$user->examination_no = $request->examinationNumber ?? null;
+        //$user->examination_year = $request->examinationYear ?? null;
         $user->company_name = $request->companyName ?? null;
         $user->department = $request->department ?? null;
         $user->position = $request->position ?? null;
