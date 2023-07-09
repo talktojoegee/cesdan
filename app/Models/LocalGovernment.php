@@ -12,4 +12,9 @@ class LocalGovernment extends Model
     public function getAllLocalGovernments(){
         return LocalGovernment::orderBy('local_name', 'ASC')->get();
     }
+
+
+    public function getLocalGovernmentsByStateId($id){
+        return LocalGovernment::where('state_id', $id)->orderBy('local_name', 'ASC')->get();
+    }
 }

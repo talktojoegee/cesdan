@@ -148,13 +148,7 @@
                                         <div class="col-md-4 col-lg-4">
                                             <div class="form-group">
                                                 <label>Local Govt. Area: <sup class="text-danger">*</sup></label>
-                                                <select name="localGovtArea" id="localGovtArea" class="form-control">
-                                                    <option selected disabled>-- Select LGA --</option>
-                                                    <option value="1">Single</option>
-                                                    <option value="2">Married</option>
-                                                    <option value="3">Divorced</option>
-                                                    <option value="4">Others</option>
-                                                </select>
+                                                <div id="localGovtAreaWrapper"></div>
                                                 @error('localGovtArea') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                             </div>
                                         </div>
@@ -777,7 +771,7 @@
                                             <td><strong>Nationality :</strong> {{$user->getCountryById($user->nationality)->name ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>LGA :</strong> {{$user->middle_name ?? ''}}</td>
+                                            <td><strong>LGA :</strong> {{$user->getLocalGovernment->local_name ?? ''}}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Contact City :</strong> {{$user->contact_city ?? ''}}</td>
@@ -987,23 +981,7 @@
                                     </table>
                                 </div>
 
-                                <h6 class="text-info"><li><strong>ATSWA Final/Qualifying Exam Detail</strong></li></h6>
-                                <div class="table-responsive ">
-                                    <table class="table row table-borderless">
-                                        <tbody class="col-lg-12 col-xl-6 p-0">
-                                        <tr>
-                                            <td><strong>Examination Number :</strong> {{$user->first_name ?? '' }}</td>
-                                        </tr>
-                                        </tbody>
 
-
-                                        <tbody class="col-lg-12 col-xl-6 p-0">
-                                        <tr>
-                                            <td><strong>Examination Year :</strong> {{$user->surname ?? '' }}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
 
 
                             </div>
@@ -1105,4 +1083,19 @@
     <script src="/assets/plugins/formwizard/fromwizard.js"></script>
     <script src="/assets/plugins/accordion-Wizard-Form/jquery.accordion-wizard.min.js"></script>
     <script src="/assets/js/advancedform.js"></script>
+    <script src="/vendor/select2/js/select2.full.min.js" type="text/javascript"></script>
+    <script src="/js/select2-init.js" type="text/javascript"></script>
+    <script src="/js/axios.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#stateOfOrigin').on('change', function(e){
+                e.preventDefault();
+                axios.post('/load-local-governments', {stateOfOrigin:$(this).val()})
+                    .then(response=>{
+                        $('#localGovtAreaWrapper').html(response.data);
+                        $('#localGovtArea').select2();
+                    });
+            });
+        });
+    </script>
 @endsection

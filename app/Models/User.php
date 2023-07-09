@@ -92,6 +92,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(GeopoliticalZone::class, 'geo_zone');
     }
 
+    public function getLocalGovernment(){
+        return $this->belongsTo(LocalGovernment::class, 'lga');
+    }
+
 
 
     /*
@@ -143,7 +147,7 @@ class User extends Authenticatable implements JWTSubject
         $user->birth_date = $request->birthDate;
         $user->nationality = $request->nationality;
         $user->state_origin = $request->stateOfOrigin;
-        $user->lga = 1; //$request->stateOfOrigin;
+        $user->lga = $request->localGovtArea;
         //$user->contact_address = $request->contactAddress ?? null;
         //$user->contact_city = $request->contactCity ?? null;
         //$user->contact_state = $request->contactState ?? null;

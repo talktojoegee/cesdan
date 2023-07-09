@@ -280,3 +280,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/shared/survey/{slug}', [App\Http\Controllers\OnlinePaymentController::class, 'sharedSurvey'])->name('shared-survey');
 Route::post('/process-shared/survey', [App\Http\Controllers\OnlinePaymentController::class, 'processSharedSurvey'])->name('process-shared-survey');
 Route::get('/survey/thank-you', [App\Http\Controllers\OnlinePaymentController::class, 'surveyThankYou'])->name('survey-thank-you');
+
+Route::post('/load-local-governments', [App\Http\Controllers\ShareResourceController::class, 'loadLocalGovernments']);
