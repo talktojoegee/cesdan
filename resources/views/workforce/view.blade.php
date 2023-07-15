@@ -777,7 +777,7 @@
                                             <td><strong>Contact City :</strong> {{$user->contact_city ?? ''}}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Contact Country :</strong> {{$user->getCountryById($user->contact_country)->name }}</td>
+                                            <td><strong>Contact Country :</strong> {{$user->getCountryById($user->contact_country)->name ?? '' }}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Heard of CIDSAN from :</strong> {{$user->gender == 1 ? 'Male' : 'Female' }}</td>
