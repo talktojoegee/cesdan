@@ -118,6 +118,23 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
+    public static function handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo){
+        $user = new User();
+        $user->first_name = 'First Name';
+        $user->surname = $surname ?? '' ;
+        $user->password = bcrypt($password);
+        $user->email = $email;
+        $user->mobile_no = $mobileNo ?? null;
+        $user->start_date = now();
+        $user->end_date = now();
+        $user->tenant_id = 1;
+        $user->account_status = 0;
+        $user->active_sub_key = $registrationNo ?? null; //active_sub_key holds the registration number
+        $user->slug = Str::slug($surname).'-'.substr(sha1(time()),32,40);
+        $user->save();
+        return $user;
+    }
+
     public function setNewTeamMember(Request $request){
         $user = new User();
         $user->first_name = $request->first_name ;

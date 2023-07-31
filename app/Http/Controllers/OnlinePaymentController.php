@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeNewUserMail;
+use App\Models\AdminNotification;
 use App\Models\Bank;
 use App\Models\BulkSmsAccount;
 use App\Models\InvoiceMaster;
@@ -33,6 +35,7 @@ class OnlinePaymentController extends Controller
         $this->bank = new Bank();
         $this->survey = new Survey();
         $this->surveyresponse = new SurveyResponse();
+        $this->adminnotification = new AdminNotification();
     }
 
     public function initializePaystack(){
@@ -41,16 +44,15 @@ class OnlinePaymentController extends Controller
     public function processOnlinePayment(Request $request){
         /*
          * Transaction Type (Transaction):
-         *  1 = New tenant subscription
-         *  2 = Subscription Renewal
-         *  3 = Invoice Payment
+         *  3 = Invoice Payment | New Registration
          *  4 = SMS Top-up
          */
+
         $reference = isset($request->reference) ? $request->reference : '';
         if(!$reference){
             die('No reference supplied');
         }
-        $paystack = new Paystack(config('app.paystack_secret_key'));
+        $paystack = new Paystack( env('PAYSTACK_SECRET_KEY'));
         try {
             // verify using the library
             $tranx = $paystack->transaction->verify([
@@ -60,56 +62,39 @@ class OnlinePaymentController extends Controller
             session()->flash("error", "Whoops! Something went wrong.");
             return redirect()->route('top-up');
         }
+
         if ('success' === $tranx->data->status) {
             try {
+
                 $transaction_type = $tranx->data->metadata->transaction ;
+                $user = null;
                 switch ($transaction_type){
-                    case 2:
-                        $transaction_type = $tranx->data->metadata->transaction ;
-                        $active_key = "key_".substr(sha1(time()),23,40);
-                        $tenant_id = $tranx->data->metadata->tenant ;
-                        $plan_id = $tranx->data->metadata->pricing ;
-                        $charge = $tranx->data->metadata->charge ;
-                        $plan = $this->pricing->getPricingByPricingId($plan_id);
-                        $now = Carbon::now();
-                        $end = $now->addDays($plan->duration);
-                        $this->subscription->renewSubscription($tenant_id, $plan_id, $active_key, now(),
-                            $end->toDateTimeString(), 3, $tranx->data->amount, $charge);
-                        $this->user->updateTenantActiveKey($tenant_id, $active_key, now(), $end->toDateTimeString());
-                        $this->tenant->updateTenantSubscriptionPeriod($tenant_id, $active_key, now(), $end->toDateTimeString(), $plan_id);
-                        break;
                     case 3:
-                        $invioce_id = $tranx->data->metadata->invoice;
-                        $bank_id = $tranx->data->metadata->bank;
+                        $registrationNo = $tranx->data->metadata->registration;
+                        $surname = $tranx->data->metadata->surname;
+                        $password = $tranx->data->metadata->password;
+                        $mobileNo = $tranx->data->metadata->mobile;
+                        $email = $tranx->data->metadata->email;
                         $amount = $tranx->data->amount;
-                        $invoice = $this->invoice->getInvoiceById($invioce_id);
-                        $this->invoice->updateInvoicePayment($invoice, $amount);
-                        $counter = $this->receipt->getLatestReceipt();
-                        $receipt = $this->receipt->createNewReceiptOnline($counter, $invoice, $amount, $bank_id);
-                        break;
-                    case 4:
-                        $this->bulksmsaccount->creditAccount($request->reference,$tranx->data->amount,$tranx->data->metadata->cost);
+                        $user = User::handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo);
                         break;
                 }
-                // transaction was successful...
-                // please check other things like whether you already gave value for this ref
-                // if the email matches the customer who owns the product etc
-                // Give value
-                //return dd($tranx->data->amount);
-                //return dd($tranx->data->metadata->cost);
                 switch ($transaction_type){
-                    case 2:
-                        session()->flash("success", "Your subscription was renewed successfully.");
-                        return redirect()->route('login');
-                        break;
                     case 3:
-                        session()->flash("success", "Your payment was received. Thank you.");
+                        $subject = "New registration";
+                        $body = $tranx->data->metadata->surname." just registered on ".env("APP_NAME");
+                        $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);
+                        #Send welcome email
+                        try{
+                            $user = User::first();
+                           \Mail::to($user)->send(new WelcomeNewUserMail($user) );
+
+                        }catch (\Exception $ex){
+                            session()->flash("error", "We had trouble sending you a mail. Though your account was created.");
+                            return back();
+                        }
+                   session()->flash("success", "Your registration was successful. However, you'll have to complete your profile when you do login. <a href='".route('login')."'>Click here</a> to login.");
                         return redirect()->route('login');
-                        break;
-                    case 4:
-                        session()->flash("success", "Your top-up transaction was successful.");
-                        return redirect()->route('top-up');
-                        break;
                 }
             }catch (Paystack\Exception\ApiException $ex){
 

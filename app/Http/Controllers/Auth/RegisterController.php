@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Newsletter\NewsletterFacade as Newsletter;
+use Yabacon\Paystack;
 
 class RegisterController extends Controller
 {
@@ -97,7 +98,37 @@ class RegisterController extends Controller
             'terms.required'=>'Accept our terms & conditions to continue with this registration',
             'mobileNo.required'=>'Enter a functional mobile phone number',
         ]);
-        $user = $this->user->setNewUser($request);
+            try{
+                $paystack = new Paystack(env('PAYSTACK_SECRET_KEY'));
+                $amount = 20000; //$request->amount;
+                $builder = new Paystack\MetadataBuilder();
+                $builder->withRegistration($request->registrationNo);
+                $builder->withSurname($request->surname);
+                $builder->withPassword($request->password);
+                $builder->withMobile($request->mobileNo);
+                $builder->withEmail($request->email);
+                $builder->withTransaction(3);
+                $metadata = $builder->build();
+                //$charge = ceil($cost*1.5)/100;
+                $tranx = $paystack->transaction->initialize([
+                    'amount'=>$amount*100,       // in kobo
+                    'email'=>$request->email,         // unique to customers
+                    'reference'=>substr(sha1(time()),23,40), // unique to transactions
+                    'metadata'=>$metadata
+                ]);
+                return redirect()->to($tranx->data->authorization_url)->send();
+            }catch (Paystack\Exception\ApiException $exception){
+                //print_r($exception->getResponseObject());
+                //die($exception->getMessage());
+                session()->flash("error", "Whoops! Something went wrong. Try again.");
+                return back();
+            }
+
+
+
+
+
+        //$user = $this->user->setNewUser($request);
         #Notification
         $subject = "New registration";
         $body = $request->surname." just registered on ".env("APP_NAME");
