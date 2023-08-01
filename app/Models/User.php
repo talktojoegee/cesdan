@@ -120,7 +120,7 @@ class User extends Authenticatable implements JWTSubject
 
     public static function handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo){
         $user = new User();
-        $user->first_name = 'First Name';
+        $user->first_name = null;
         $user->surname = $surname ?? '' ;
         $user->password = bcrypt($password);
         $user->email = $email;
@@ -213,6 +213,7 @@ class User extends Authenticatable implements JWTSubject
         $user->sponsoring_district = $request->sponsoringDistrictSociety ?? null;
         $user->account_status = 1;
         $user->save();
+        return $user;
     }
     public function updateAvatar(Request $request){
         if($request->hasFile('passportPhoto'))

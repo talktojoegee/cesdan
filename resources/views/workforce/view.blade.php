@@ -226,7 +226,7 @@
                                     <div class="row">
                                         <div class="col-md-3 col-lg-3">
                                             <div class="form-group">
-                                                <label>Office Address: <sup class="text-danger">*</sup></label>
+                                                <label>Office Address:</label>
                                                 <textarea placeholder="Office Address" name="officeAddress" id="officeAddress" style="resize: none;"
                                                           class="form-control">{{ old('officeAddress') }}</textarea>
                                                 @error('officeAddress') <i class="text-danger mt-2">{{$message}}</i> @enderror
@@ -234,14 +234,14 @@
                                         </div>
                                         <div class="col-md-3 col-lg-3">
                                             <div class="form-group">
-                                                <label>Office City: <sup class="text-danger">*</sup></label>
+                                                <label>Office City: </label>
                                                 <input type="text" value="{{ old('officeCity') }}" placeholder="Office City" name="officeCity" class="form-control">
                                                 @error('officeCity') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-3 col-lg-3">
                                             <div class="form-group">
-                                                <label>Office State: <sup class="text-danger">*</sup></label>
+                                                <label>Office State: </label>
                                                 <select name="officeState" id="officeState" class="form-control">
                                                     <option selected disabled>-- Select state --</option>
                                                     @foreach($states as $sta)
@@ -253,7 +253,7 @@
                                         </div>
                                         <div class="col-md-3 col-lg-3">
                                             <div class="form-group">
-                                                <label>Office Telephone: <sup class="text-danger">*</sup></label>
+                                                <label>Office Telephone: </label>
                                                 <input type="text" value="{{ old('officeTelephone') }}" placeholder="Office Telephone" name="officeTelephone" class="form-control">
                                                 @error('officeTelephone') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                             </div>
@@ -336,7 +336,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-lg-3">
                                                     <div class="form-group">
-                                                        <label>Institution: <sup class="text-danger">*</sup></label>
+                                                        <label>Institution: </label>
                                                         <select name="graduateInstitution" id="graduateInstitution" class="form-control">
                                                             <option selected disabled>-- Select institution --</option>
                                                             @foreach($institutions as $inst)
@@ -348,7 +348,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-lg-3">
                                                     <div class="form-group">
-                                                        <label>Qualification: <sup class="text-danger">*</sup></label>
+                                                        <label>Qualification: </label>
                                                         <select name="graduateQualification" id="graduateQualification" class="form-control">
                                                             <option selected disabled>-- Select qualification --</option>
                                                             @foreach($qualifications as $qua)
@@ -360,7 +360,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-lg-2">
                                                     <div class="form-group">
-                                                        <label>Discipline: <sup class="text-danger">*</sup></label>
+                                                        <label>Discipline: </label>
                                                         <select name="graduateDiscipline" id="graduateDiscipline" class="form-control">
                                                             <option selected disabled>-- Select discipline --</option>
                                                             @foreach($disciplines as $dis)
@@ -373,14 +373,14 @@
 
                                                 <div class="col-md-2 col-lg-2">
                                                     <div class="form-group">
-                                                        <label>Year of Graduation: <sup class="text-danger">*</sup></label>
+                                                        <label>Year of Graduation: </label>
                                                         <input type="number" name="graduateGraduationYear" placeholder="Year of Graduation" value="{{old('graduateGraduationYear')}}" class="form-control">
                                                         @error('graduateGraduationYear') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-lg-2">
                                                     <div class="form-group">
-                                                        <label>Institution Country: <sup class="text-danger">*</sup></label>
+                                                        <label>Institution Country: </label>
                                                         <select name="graduateInstitutionCountry" id="graduateInstitutionCountry" class="form-control">
                                                             <option selected disabled>-- Select country --</option>
                                                             @foreach($countries as $country)
@@ -402,7 +402,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-lg-3">
                                                     <div class="form-group">
-                                                        <label>Institution: <sup class="text-danger">*</sup></label>
+                                                        <label>Institution: </label>
                                                         <select name="postGraduateInstitution" id="postGraduateInstitution" class="form-control">
                                                             <option selected disabled>-- Select institution --</option>
                                                             @foreach($institutions as $institute)
@@ -414,7 +414,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-lg-3">
                                                     <div class="form-group">
-                                                        <label>Qualification: <sup class="text-danger">*</sup></label>
+                                                        <label>Qualification: </label>
                                                         <select name="postGraduateQualification" id="postGraduateQualification" class="form-control">
                                                             <option selected disabled>-- Select qualification --</option>
                                                             @foreach($qualifications as $qualif)
@@ -426,7 +426,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-lg-2">
                                                     <div class="form-group">
-                                                        <label>Discipline: <sup class="text-danger">*</sup></label>
+                                                        <label>Discipline: </label>
                                                         <select name="postGraduateDiscipline" id="postGraduateDiscipline" class="form-control">
                                                             <option selected disabled>-- Select discipline --</option>
                                                             @foreach($disciplines as $disci)
@@ -439,14 +439,14 @@
 
                                                 <div class="col-md-2 col-lg-2">
                                                     <div class="form-group">
-                                                        <label>Year of Graduation: <sup class="text-danger">*</sup></label>
+                                                        <label>Year of Graduation: </label>
                                                         <input type="number" name="postGraduationYear" placeholder="Year of Graduation" value="{{old('postGraduationYear')}}" class="form-control">
                                                         @error('postGraduationYear') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-lg-2">
                                                     <div class="form-group">
-                                                        <label>Institution Country: <sup class="text-danger">*</sup></label>
+                                                        <label>Institution Country: </label>
                                                         <select name="postGraduateInstitutionCountry" id="postGraduateInstitutionCountry" class="form-control">
                                                             <option selected disabled>-- Select country --</option>
                                                             @foreach($countries as $country)
@@ -468,28 +468,28 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-lg-3">
                                                     <div class="form-group">
-                                                        <label>1st Prof. Qualification: <sup class="text-danger">*</sup></label>
+                                                        <label>1st Prof. Qualification: </label>
                                                         <input type="text" name="professionalQualification" placeholder="First Professional Qualification" value="{{old('professionalQualification')}}" class="form-control">
                                                         @error('professionalQualification') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-lg-3">
                                                     <div class="form-group">
-                                                        <label>Year Qualified: <sup class="text-danger">*</sup></label>
+                                                        <label>Year Qualified: </label>
                                                         <input type="number" name="professionalQualificationYear" placeholder="Year Qualified" value="{{old('professionalQualificationYear')}}" class="form-control">
                                                         @error('professionalQualificationYear') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-lg-3">
                                                     <div class="form-group">
-                                                        <label>2nd Prof. Qualification: <sup class="text-danger">*</sup></label>
+                                                        <label>2nd Prof. Qualification: </label>
                                                         <input type="text" name="secondProfessionalQualification" placeholder="Second Professional Qualification" value="{{old('secondProfessionalQualification')}}" class="form-control">
                                                         @error('secondProfessionalQualification') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-lg-3">
                                                     <div class="form-group">
-                                                        <label>Year Qualified: <sup class="text-danger">*</sup></label>
+                                                        <label>Year Qualified: </label>
                                                         <input type="number" name="secondProfessionalQualificationYear" placeholder="Year Qualified" value="{{old('secondProfessionalQualificationYear')}}" class="form-control">
                                                         @error('secondProfessionalQualificationYear') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
@@ -511,21 +511,21 @@
                                             <div class="row">
                                                 <div class="col-md-4 col-lg-4">
                                                     <div class="form-group">
-                                                        <label>Company Name: <sup class="text-danger">*</sup></label>
+                                                        <label>Company Name: </label>
                                                         <input type="text" name="companyName" placeholder="Company Name" value="{{old('companyName')}}" class="form-control">
                                                         @error('companyName') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-lg-4">
                                                     <div class="form-group">
-                                                        <label>Department: <sup class="text-danger">*</sup></label>
+                                                        <label>Department: </label>
                                                         <input type="text" name="department" placeholder="Department" value="{{old('department')}}" class="form-control">
                                                         @error('department') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-lg-4">
                                                     <div class="form-group">
-                                                        <label>Position: <sup class="text-danger">*</sup></label>
+                                                        <label>Position: </label>
                                                         <input type="text" name="position" placeholder="Position" value="{{old('position')}}" class="form-control">
                                                         @error('position') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
@@ -536,14 +536,14 @@
                                             <div class="row">
                                                 <div class="col-md-4 col-lg-4">
                                                     <div class="form-group">
-                                                        <label>Start Date: <sup class="text-danger">*</sup></label>
+                                                        <label>Start Date: </label>
                                                         <input type="date" name="startDate" placeholder="Start Date" value="{{old('startDate')}}" class="form-control">
                                                         @error('startDate') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-lg-4">
                                                     <div class="form-group">
-                                                        <label>Sector 1: <sup class="text-danger">*</sup></label>
+                                                        <label>Sector 1: </label>
                                                         <select name="sectorOne" id="sectorOne" class="form-control">
                                                             <option disabled selected>-- Select sector 1 --</option>
                                                             <option value="1">Federal Government</option>
@@ -556,7 +556,7 @@
                                                 </div>
                                                 <div class="col-md-4 col-lg-4">
                                                     <div class="form-group">
-                                                        <label>Sector 2: <sup class="text-danger">*</sup></label>
+                                                        <label>Sector 2: </label>
                                                         <select name="sectorTwo" id="sectorTwo" class="form-control">
                                                             <option disabled selected>-- Select sector 2 --</option>
                                                             @foreach($sectortwo as $sector)

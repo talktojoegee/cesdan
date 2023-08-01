@@ -8,10 +8,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeNewUserMail extends Mailable
+class ProfileUpdateMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $user;
+
     /**
      * Create a new message instance.
      *
@@ -29,8 +30,9 @@ class WelcomeNewUserMail extends Mailable
      */
     public function build()
     {
+
         return $this->from('no-reply@cesdan.com')
-            ->subject('Congratulations! '.config('app.name'))
-            ->markdown('mails.user.welcome-new-user-mail');
+            ->subject('Profile Update! '.config('app.name'))
+            ->markdown('mails.user.profile-update-mail');
     }
 }

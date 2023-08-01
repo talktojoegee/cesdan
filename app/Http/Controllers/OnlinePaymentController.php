@@ -86,7 +86,6 @@ class OnlinePaymentController extends Controller
                         $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);
                         #Send welcome email
                         try{
-                            $user = User::first();
                            \Mail::to($user)->send(new WelcomeNewUserMail($user) );
 
                         }catch (\Exception $ex){
