@@ -100,7 +100,7 @@ class RegisterController extends Controller
         ]);
             try{
                 $paystack = new Paystack(env('PAYSTACK_SECRET_KEY'));
-                $amount = 20000; //$request->amount;
+                $amount = 25000; //$request->amount;
                 $builder = new Paystack\MetadataBuilder();
                 $builder->withRegistration($request->registrationNo);
                 $builder->withSurname($request->surname);

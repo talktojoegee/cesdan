@@ -12,8 +12,10 @@ use App\Models\Qualification;
 use App\Models\SectorTwo;
 use App\Models\SponsoringDistrict;
 use App\Models\State;
+use App\Models\SubscriptionPlan;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Models\UserSupportingDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -55,6 +57,7 @@ class WorkforceController extends Controller
                 'institutions'=>$this->institution->getAllInstitutions(),
                 'geozones'=>$this->geopoliticalzone->getAllGeopoliticalZones(),
                 'sectortwo'=>$this->sectortwo->getAllSectorTwo(),
+                'plans'=>SubscriptionPlan::getSubscriptionPlan()
 
             ]);
         }else{
@@ -101,6 +104,7 @@ class WorkforceController extends Controller
             'birthDate'=>'required',
             'nationality'=>'required',
             'stateOfOrigin'=>'required',
+            'membershipPlan'=>'required',
             //'contactAddress'=>'required',
             //'contactCity'=>'required',
             //'contactState'=>'required',
@@ -158,6 +162,7 @@ class WorkforceController extends Controller
             'birthDate.required'=>"When were you born?",
             'nationality.required'=>"What's your nationality?",
             'stateOfOrigin.required'=>"What is your state of origin?",
+            'membershipPlan.required'=>"Choose a membership plan",
             //'contactAddress.required'=>"Enter your contact address in the field provided",
             //'contactCity.required'=>"Enter contact city here",
             //'contactState.required'=>"Select state from the options provided",
@@ -206,6 +211,22 @@ class WorkforceController extends Controller
             'sponsoringDistrictSociety.required'=>'Select sponsoring district society',
         ]);
         $user = $this->user->updateProfile($request);
+        if ($request->hasFile('attachments')) {
+            foreach($request->attachments as $attachment){
+                $extension = $attachment->getClientOriginalExtension();
+                $size = $attachment->getSize();
+                $name = $attachment->getClientOriginalName();
+                $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                $dir = 'assets/drive/cloud/';
+                $attachment->move(public_path($dir), $filename);
+                $file = new UserSupportingDocument();
+                $file->user_id = Auth::user()->id;
+                $file->attachment = $filename;
+                $file->size = $size ?? 'N/A';
+                $file->name = $name ?? 'N/A';
+                $file->save();
+            }
+        }
         #Send welcome email
         try{
             \Mail::to($user)->send(new ProfileUpdateMail($user) );

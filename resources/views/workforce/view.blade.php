@@ -36,7 +36,7 @@
                             <p>{!! session()->get('success') !!}</p>
                         </div>
                     @endif
-                    <form id="form" action="{{ route('update-profile') }}" method="post">
+                    <form id="form" action="{{ route('update-profile') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="list-group">
                             <div class="list-group-item py-4" data-acc-step>
@@ -179,6 +179,32 @@
                                                     <option value="5">Others</option>
                                                 </select>
                                                 @error('heardIcan') <i class="text-danger mt-2">{{$message}}</i> @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4">
+                                            <div class="form-group">
+                                                <label>Membership Plan: <sup class="text-danger">*</sup></label>
+                                                <select name="membershipPlan" id="membershipPlan" class="form-control">
+                                                    <option selected disabled>-- Select plan --</option>
+                                                    @foreach($plans as $plan)
+                                                    <option value="{{ $plan->id }}">{{$plan->name ?? '' }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('membershipPlan') <i class="text-danger mt-2">{{$message}}</i> @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item py-4" data-acc-step>
+                                <h5 class="mb-0" data-acc-title><strong>Supporting Documents</strong></h5>
+                                <div data-acc-content class="mt-4">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label>Documents <small>(You can upload multiple documents at once)</small>: <sup class="text-danger">*</sup></label>
+                                                <input type="file" name="supportingDocuments[]" multiple class="form-control-file">
+                                                @error('supportingDocuments') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                             </div>
                                         </div>
                                     </div>
