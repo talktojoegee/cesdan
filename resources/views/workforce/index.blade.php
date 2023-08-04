@@ -11,7 +11,13 @@
     <link href="/assets/plugins/datatable/responsivebootstrap4.min.css" rel="stylesheet" />
 @endsection
 @section('breadcrumb-action-btn')
-    @include('contacts.partials._menu')
+
+    <a href="{{ url()->previous() }}" class="btn btn-secondary btn-icon text-white">
+        <span>
+            <i class="fe fe-skip-back"></i>
+        </span> Go Back
+    </a>
+
 @endsection
 
 @section('main-content')

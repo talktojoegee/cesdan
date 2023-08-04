@@ -118,32 +118,8 @@ class RegisterController extends Controller
                 ]);
                 return redirect()->to($tranx->data->authorization_url)->send();
             }catch (Paystack\Exception\ApiException $exception){
-                //print_r($exception->getResponseObject());
-                //die($exception->getMessage());
                 session()->flash("error", "Whoops! Something went wrong. Try again.");
                 return back();
             }
-
-
-
-
-
-        //$user = $this->user->setNewUser($request);
-        #Notification
-        $subject = "New registration";
-        $body = $request->surname." just registered on ".env("APP_NAME");
-        $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);
-        #Mailchimp welcome email
-        /*try {
-            if ( ! Newsletter::isSubscribed($request->email) ) {
-                Newsletter::subscribe($request->email);
-                Newsletter::subscribe($request->email, ['FNAME'=>$request->first_name]);
-            }
-        }catch (\Exception $exception){
-
-        }*/
-
-        session()->flash("success", "Your registration was successful. However, you'll have to complete your profile when you do login. <a href='".route('login')."'>Click here</a> to login.");
-        return back();
     }
 }

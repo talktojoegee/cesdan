@@ -14,7 +14,11 @@
 
 @endsection
 @section('breadcrumb-action-btn')
-    @include('contacts.partials._menu')
+    <a href="{{route('view-profile', Auth::user()->slug)}}" class="btn btn-primary btn-icon text-white">
+        <span>
+            <i class="fe fe-user"></i>
+        </span> View Profile
+    </a>
 @endsection
 
 @section('main-content')
@@ -663,6 +667,22 @@
                 <div class="card-body">
                     <div class="wideget-user text-center">
                         <div class="wideget-user-desc">
+                            <div class="d-flex justify-content-between">
+                                @if($user->account_status == 1)
+                                    <label for="" class="badge badge-info ">Active</label>
+                                @elseif($user->account_status == 0)
+                                    <label for="" class="badge badge-secondary "> <i class="fe fe-clock"></i> Incomplete</label>
+                                @elseif($user->account_status == 2)
+                                    <label for="" class="badge badge-warning "> <i class="fe fe-loader"></i> Pending</label>
+                                @elseif($user->account_status == 3)
+                                    <label for="" class="badge badge-primary "> <i class="fe fe-clock"></i> Paid</label>
+                                @elseif($user->account_status == 4)
+                                    <label for="" class="badge badge-secondary "> <i class="fe fe-check"></i> Verified</label>
+                                @endif
+
+                                <label data-toggle="modal" data-target="#status-update" style="cursor: pointer;" for="" class="badge badge-info ">Update Status <i class="fe fe-edit"></i> </label>
+
+                            </div>
                             <div class="wideget-user-img">
                                 <img class="" src="/assets/drive/{{Auth::user()->avatar ?? "avatar.jpg"}}" alt="img">
                             </div>
@@ -670,6 +690,7 @@
                                 <h4 class="mb-1">{{$user->first_name ?? '' }} {{$user->surname ?? '' }}</h4>
                                 <h6 class="text-muted mb-4">Member Since: {{date('d M, Y', strtotime($user->created_at))}}</h6>
                             </div>
+                            <span> <i class="fe fa-pencil text-warning"></i> </span>
                         </div>
                     </div>
                 </div>
@@ -743,9 +764,11 @@
                         <div class="tabs-menu1">
                             <ul class="nav">
                                 <li class=""><a href="#tab-51" class="active show" data-toggle="tab">Profile</a></li>
+                                <li><a href="#tab-62" data-toggle="tab" class="">Supporting Documents</a></li>
+
                                 @if(Auth::user()->id == $user->id)
-                                <li><a href="#tab-61" data-toggle="tab" class="">Profile Picture</a></li>
-                                <li><a href="#tab-81" data-toggle="tab" class="">Change Password</a></li>
+                                    <li><a href="#tab-61" data-toggle="tab" class="">Profile Picture</a></li>
+                                    <li><a href="#tab-81" data-toggle="tab" class="">Change Password</a></li>
                                 @endif
                             </ul>
                         </div>
@@ -775,7 +798,7 @@
                         <div class="card-body">
                             <div id="profile-log-switch">
                                 <div class="media-heading">
-                                    <h5 style="border-bottom: 2px solid #3E4999; padding-bottom: 10px;"><strong class="text-info">Personal Information</strong> <sup>{!! $user->account_status == 1 ? "<span class='text-success'>Active</span>" : "<span class='text-warning'>Inactive</span>"  !!}</sup></h5>
+                                    <h5 style="border-bottom: 2px solid #3E4999; padding-bottom: 10px;"><strong class="text-info">Personal Information</strong></h5>
                                 </div>
                                 <div class="table-responsive ">
                                     <table class="table row table-borderless">
@@ -1014,6 +1037,127 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane" id="tab-62">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                @foreach ($documents as $file)
+                                    @switch(pathinfo($file->attachment, PATHINFO_EXTENSION))
+                                        @case('pptx')
+                                        <div class="col-md-4 mb-4">
+                                            <a href="button" data-toggle="tooltip" data-placement="top" title="{{$file->name ?? 'No name'}}" data-original-title="{{$file->name ?? 'No name'}}" style="cursor: pointer;">
+                                                <img src="/assets/formats/ppt.png" height="64" width="64" alt="{{$file->name ?? 'No name'}}"><br>
+                                                {{strlen($file->name ?? 'No name') > 10 ? substr($file->name ?? 'No name',0,7).'...' : $file->name ?? 'No name'}}
+                                            </a>
+                                            <div class="dropdown-secondary dropdown float-right">
+                                                <button class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown6" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                    <a class="dropdown-item waves-light waves-effect" href="{{route('download-attachment',['slug'=>$file->attachment, 'account'=>$account])}}"><i class="ti-download text-success mr-2"></i> Download</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item waves-light waves-effect deleteFile"  data-toggle="modal" data-target="#deleteModal" data-directory="{{$file->attachment}}" data-file="{{$file->name ?? 'File name'}}" data-unique="{{$file->id}}" href="javascript:void(0);"><i class="ti-trash mr-2 text-danger"></i> Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @break
+                                        @case('pdf')
+                                        <div class="col-md-4 mb-4">
+                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="{{$file->name ?? 'No name'}}" data-original-title="{{$file->name ?? 'No name'}}" style="cursor: pointer;">
+                                                <img src="/assets/formats/pdf.png" height="64" width="64" alt="{{$file->name ?? 'No name'}}"> <br>
+                                                {{$file->name ?? '' }}
+                                            </a>
+                                            <div class="dropdown-secondary dropdown float-right">
+                                                <button class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown6" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                    <a class="dropdown-item waves-light waves-effect" href="{{route('download-attachment',['slug'=>$file->attachment])}}"><i class="ti-download text-success mr-2"></i> Download</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item waves-light waves-effect deleteFile"  data-toggle="modal" data-target="#deleteModal" data-directory="{{$file->attachment}}" data-file="{{$file->name ?? 'File name'}}" data-unique="{{$file->id}}" href="javascript:void(0);"><i class="ti-trash mr-2 text-danger"></i> Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @break
+                                        @case('doc')
+                                        <div class="col-md-4 mb-4">
+                                            <a href="button" style="cursor: pointer;"  data-toggle="tooltip" data-placement="top" title="{{$file->name ?? 'No name'}}" data-original-title="{{$file->name ?? 'No name'}}">
+                                                <img src="/assets/formats/doc.png" height="64" width="64" alt="{{$file->name ?? 'No name'}}"><br>
+                                                {{$file->name ?? '' }}
+                                            </a>
+                                            <div class="dropdown-secondary dropdown float-right">
+                                                <button class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown6" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                    <a class="dropdown-item waves-light waves-effect" href="{{route('download-attachment',['slug'=>$file->attachment])}}"><i class="ti-download text-success mr-2"></i> Download</a>
+                                                    <div class="dropdown-divider"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @break
+                                        @case('docx')
+                                        <div class="col-md-4 mb-4">
+                                            <a href="button" style="cursor: pointer;" data-toggle="tooltip" data-placement="top" title="{{$file->name ?? 'No name'}}" data-original-title="{{$file->name ?? 'No name'}}">
+                                                <img src="/assets/formats/doc.png" height="64" width="64" alt="{{$file->name ?? 'No name'}}"><br>
+                                                {{$file->name ?? '' }}
+                                            </a>
+                                            <div class="dropdown-secondary dropdown ">
+                                                <button style="margin-left: 50px;" class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown6" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                    <a class="dropdown-item waves-light waves-effect" href="{{route('download-attachment',['slug'=>$file->attachment])}}"><i class="ti-download text-success mr-2"></i> Download</a>
+                                                    <div class="dropdown-divider"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @break
+                                        @case('jpeg')
+                                        <div class="col-md-4 mb-4">
+                                            <a href="button" style="cursor: pointer;"  data-toggle="tooltip" data-placement="top" title="{{$file->name ?? 'No name'}}" data-original-title="{{$file->name ?? 'No name'}}">
+                                                <img src="/assets/formats/jpg.png" height="64" width="64" alt="{{$file->name ?? 'No name'}}"><br>
+                                                {{$file->name ?? '' }}
+                                            </a>
+                                            <div class="dropdown-secondary dropdown ">
+                                                <button style="margin-left: 50px;" class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted"  type="button" id="dropdown6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown6" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                    <a class="dropdown-item waves-light waves-effect" href="{{route('download-attachment',['slug'=>$file->attachment])}}"><i class="ti-download text-success mr-2"></i> Download</a>
+                                                    <div class="dropdown-divider"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @break
+                                        @case('jpg')
+                                        <div class="col-md-4 mb-4">
+                                            <a href="button" style="cursor: pointer;"  data-toggle="tooltip" data-placement="top" title="{{$file->name ?? 'No name'}}" data-original-title="{{$file->name ?? 'No name'}}">
+                                                <img src="/assets/formats/jpg.png" height="64" width="64" alt="{{$file->name ?? 'No name'}}"><br>
+                                                {{$file->name ?? '' }}
+                                            </a>
+                                            <div class="dropdown-secondary dropdown ">
+                                                <button style="margin-left: 50px;" class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown6" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                    <a class="dropdown-item waves-light waves-effect" href="{{route('download-attachment',['slug'=>$file->attachment])}}"><i class="ti-download text-success mr-2"></i> Download</a>
+                                                    <div class="dropdown-divider"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @break
+                                        @case('png')
+                                        <div class="col-md-4 mb-4">
+                                            <a href="button" style="cursor: pointer;"  data-toggle="tooltip" data-placement="top" title="{{$file->name ?? 'No name'}}" data-original-title="{{$file->name ?? 'No name'}}">
+                                                <img src="/assets/formats/png.png" height="64" width="64" alt="{{$file->name ?? 'No name'}}"><br>
+                                                {{$file->name ?? '' }}
+                                            </a>
+                                            <div class="dropdown-secondary dropdown ">
+                                                <button style="margin-left: 50px;" class="btn btn-default btn-mini dropdown-toggle waves-light b-none txt-muted" type="button" id="dropdown6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icofont icofont-navigation-menu"></i></button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown6" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                    <a class="dropdown-item waves-light waves-effect" href="{{route('download-attachment',['slug'=>$file->attachment])}}"><i class="ti-download text-success mr-2"></i> Download</a>
+                                                    <div class="dropdown-divider"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @break
+                                    @endswitch
+                                @endforeach
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
                 @if(Auth::user()->id == $user->id)
                 <div class="tab-pane" id="tab-61">
                     <div class="card">
@@ -1102,6 +1246,74 @@
             </div>
         </div>
     @endif
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">Warning</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('delete-file', ['account'=>$account])}}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">This action cannot be undone. Are you sure you want to delete <strong id="file"></strong>?</label>
+                                </div>
+                            </div>
+                            <input type="hidden" name="directory" id="directory">
+                            <input type="hidden" name="key" id="key">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button data-dismiss="modal" type="button" class="btn btn-danger btn-mini"><i class="ti-close mr-2"></i>Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-mini"><i class="ti-check mr-2"></i>Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="status-update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel"> Status Update</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('user-status-update')}}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Status</label>
+                                    <select name="status" id="" class="form-control">
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                        <option value="4">Verified</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="hidden" name="userId" value="{{ $user->id }}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button data-dismiss="modal" type="button" class="btn btn-danger btn-mini"><i class="ti-close mr-2"></i>Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-mini"><i class="ti-check mr-2"></i>Save changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('extra-scripts')

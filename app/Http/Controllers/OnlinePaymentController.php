@@ -56,50 +56,64 @@ class OnlinePaymentController extends Controller
         try {
             // verify using the library
             $tranx = $paystack->transaction->verify([
-                'reference'=>$reference, // unique to transactions
+                'reference'=>$reference,
             ]);
-        }catch (Paystack\Exception\ApiException $exception){
-            session()->flash("error", "Whoops! Something went wrong.");
-            return redirect()->route('top-up');
-        }
+            if ('success' === $tranx->data->status) {
+                try {
 
-        if ('success' === $tranx->data->status) {
-            try {
-
-                $transaction_type = $tranx->data->metadata->transaction ;
-                $user = null;
-                switch ($transaction_type){
-                    case 3:
-                        $registrationNo = $tranx->data->metadata->registration;
-                        $surname = $tranx->data->metadata->surname;
-                        $password = $tranx->data->metadata->password;
-                        $mobileNo = $tranx->data->metadata->mobile;
-                        $email = $tranx->data->metadata->email;
-                        $amount = $tranx->data->amount;
-                        $user = User::handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo);
-                        break;
+                    $transaction_type = $tranx->data->metadata->transaction ;
+                    $user = null;
+                    switch ($transaction_type){
+                        case 3:
+                            $registrationNo = $tranx->data->metadata->registration;
+                            $surname = $tranx->data->metadata->surname;
+                            $password = $tranx->data->metadata->password;
+                            $mobileNo = $tranx->data->metadata->mobile;
+                            $email = $tranx->data->metadata->email;
+                            $amount = $tranx->data->amount;
+                            $user = User::handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo);
+                            $subject = "New registration";
+                            $body = $tranx->data->metadata->surname." just registered on ".env("APP_NAME");
+                            $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);
+                            #Send welcome email
+                            try{
+                                \Mail::to($user)->send(new WelcomeNewUserMail($user) );
+                                session()->flash("success", "Your registration was successful. However, you'll have to complete your profile when you do login. <a href='".route('login')."'>Click here</a> to login.");
+                                return redirect()->route('login');
+                            }catch (\Exception $ex){
+                                session()->flash("error", "We had trouble sending you a mail. Though your account was created.");
+                                return back();
+                            }
+                            session()->flash("success", "Your registration was successful. However, you'll have to complete your profile when you do login. <a href='".route('login')."'>Click here</a> to login.");
+                            return redirect()->route('login');
+                    }
+                   /* switch ($transaction_type){
+                        case 3:
+                            $subject = "New registration";
+                            $body = $tranx->data->metadata->surname." just registered on ".env("APP_NAME");
+                            $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);
+                            #Send welcome email
+                            try{
+                                \Mail::to($user)->send(new WelcomeNewUserMail($user) );
+                                session()->flash("success", "Your registration was successful. However, you'll have to complete your profile when you do login. <a href='".route('login')."'>Click here</a> to login.");
+                                return redirect()->route('login');
+                            }catch (\Exception $ex){
+                                session()->flash("error", "We had trouble sending you a mail. Though your account was created.");
+                                return back();
+                            }
+                    }*/
+                }catch (Paystack\Exception\ApiException $ex){
+                    session()->flash("error", "Whoops! Something went wrong.");
+                    return redirect()->route('register');
                 }
-                switch ($transaction_type){
-                    case 3:
-                        $subject = "New registration";
-                        $body = $tranx->data->metadata->surname." just registered on ".env("APP_NAME");
-                        $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);
-                        #Send welcome email
-                        try{
-                           \Mail::to($user)->send(new WelcomeNewUserMail($user) );
-
-                        }catch (\Exception $ex){
-                            session()->flash("error", "We had trouble sending you a mail. Though your account was created.");
-                            return back();
-                        }
-                   session()->flash("success", "Your registration was successful. However, you'll have to complete your profile when you do login. <a href='".route('login')."'>Click here</a> to login.");
-                        return redirect()->route('login');
-                }
-            }catch (Paystack\Exception\ApiException $ex){
 
             }
-
+        }catch (Paystack\Exception\ApiException $exception){
+            session()->flash("error", "Whoops! Something went wrong.");
+            return redirect()->route('register');
         }
+
+
     }
 
     /*

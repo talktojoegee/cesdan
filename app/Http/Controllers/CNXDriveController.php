@@ -58,13 +58,13 @@ class CNXDriveController extends Controller
     }
 
 
-    public function downloadAttachment(Request $request){
+    public function downloadAttachment($slug){
         try{
-            return $this->file->downloadFile($request->file_name);
+            return $this->file->downloadFile($slug);
             session()->flash("success", "Processing request...");
             return back();
         }catch (\Exception $ex){
-            session()->flash("error", "Ooops! File does not exist.");
+            session()->flash("error", "Whoops! File does not exist.");
             return back();
         }
 

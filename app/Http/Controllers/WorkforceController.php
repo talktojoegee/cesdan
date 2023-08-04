@@ -57,7 +57,8 @@ class WorkforceController extends Controller
                 'institutions'=>$this->institution->getAllInstitutions(),
                 'geozones'=>$this->geopoliticalzone->getAllGeopoliticalZones(),
                 'sectortwo'=>$this->sectortwo->getAllSectorTwo(),
-                'plans'=>SubscriptionPlan::getSubscriptionPlan()
+                'plans'=>SubscriptionPlan::getSubscriptionPlan(),
+                'documents'=>UserSupportingDocument::getSupportingDocumentsByUserId($user->id)
 
             ]);
         }else{
@@ -68,6 +69,26 @@ class WorkforceController extends Controller
 
     public function showNewTeamMemberForm(){
         return view('workforce.add-new-team-member');
+    }
+
+    public function userStatusUpdate(Request  $request){
+        $this->validate($request,[
+            'status'=>'required',
+            'userId'=>'required'
+        ],[
+            'status.required'=>'Choose status to update',
+            'userId.required'=>''
+        ]);
+        $user = $this->user->getUserById($request->userId);
+        if(!empty($user)){
+            $user->account_status = $request->status;
+            $user->save();
+            session()->flash('success', "Success! Account status updated!");
+            return back();
+        }else{
+            session()->flash('error', "Whoops! Something went wrong. Try again later.");
+            return back();
+        }
     }
 
     public function saveNewTeamMember(Request $request){
@@ -217,7 +238,7 @@ class WorkforceController extends Controller
                 $size = $attachment->getSize();
                 $name = $attachment->getClientOriginalName();
                 $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
-                $dir = 'assets/drive/cloud/';
+                $dir = 'assets/drive/';
                 $attachment->move(public_path($dir), $filename);
                 $file = new UserSupportingDocument();
                 $file->user_id = Auth::user()->id;
@@ -232,7 +253,7 @@ class WorkforceController extends Controller
             \Mail::to($user)->send(new ProfileUpdateMail($user) );
 
         }catch (\Exception $ex){
-            session()->flash("error", "We had trouble sending you a mail. Though your account was created.");
+            session()->flash("error", "We had trouble sending you a mail. Though your account was updated.");
             return back();
         }
         session()->flash("success", "Your changes were saved successfully");

@@ -96,6 +96,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(LocalGovernment::class, 'lga');
     }
 
+    public function getUserSupportingDocuments(){
+        return $this->hasMany(UserSupportingDocument::class, 'user_id');
+    }
+
 
 
     /*
@@ -240,6 +244,10 @@ class User extends Authenticatable implements JWTSubject
             $avatar->save();
         }
     }*/
+
+    public function getUserById($id){
+        return User::find($id);
+    }
 
     public function getUserByEmail($email){
         return User::where('email', $email)->first();

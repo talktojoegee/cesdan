@@ -166,7 +166,8 @@ Route::group(['prefix'=>'app'],function(){
 
     });
     Route::prefix('/account')->group(function(){
-        Route::get('/team-members',[App\Http\Controllers\WorkforceController::class, 'manageWorkforce'])->name('manage-workforce');
+        Route::get('/members',[App\Http\Controllers\WorkforceController::class, 'manageWorkforce'])->name('manage-members');
+        Route::post('/user-status-update',[App\Http\Controllers\WorkforceController::class, 'userStatusUpdate'])->name('user-status-update');
         Route::get('/{slug}',[App\Http\Controllers\WorkforceController::class, 'viewProfile'])->name('view-profile');
         Route::get('/new-member',[App\Http\Controllers\WorkforceController::class, 'showNewTeamMemberForm'])->name('add-new-team-member');
         Route::post('/new-member',[App\Http\Controllers\WorkforceController::class, 'saveNewTeamMember']);
