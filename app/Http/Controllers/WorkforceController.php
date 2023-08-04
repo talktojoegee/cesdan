@@ -211,8 +211,8 @@ class WorkforceController extends Controller
             'sponsoringDistrictSociety.required'=>'Select sponsoring district society',
         ]);
         $user = $this->user->updateProfile($request);
-        if ($request->hasFile('attachments')) {
-            foreach($request->attachments as $attachment){
+        if ($request->hasFile('supportingDocuments')) {
+            foreach($request->supportingDocuments as $attachment){
                 $extension = $attachment->getClientOriginalExtension();
                 $size = $attachment->getSize();
                 $name = $attachment->getClientOriginalName();
