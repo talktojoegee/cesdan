@@ -46,7 +46,15 @@
                             </thead>
                             <tbody>
                             @php $serial = 1; @endphp
-
+                            @foreach($exams as $exam)
+                                <tr>
+                                    <td>{{ $serial++ }}</td>
+                                    <td>{{ date('d M, Y', strtotime($exam->created_at)) }}</td>
+                                    <td>{{ $exam->getUser->first_name ?? ''  }} {{ $exam->getUser->last_name ?? ''  }}</td>
+                                    <td>{{ $exam->getExamType->exam_name ?? '' }}</td>
+                                    <td>action</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -9,6 +9,10 @@ class ExamRegistrationCourse extends Model
 {
     use HasFactory;
 
+
+    public function getCourse(){
+        return $this->belongsTo(ExamCourse::class, 'course_id');
+    }
     public static function registerExamCourses($examId, $courseId){
         $course = new ExamRegistrationCourse();
         $course->exam_reg_id = $examId;
@@ -16,6 +20,8 @@ class ExamRegistrationCourse extends Model
         $course->save();
         return $course;
     }
+
+
 
 
 

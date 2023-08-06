@@ -185,6 +185,7 @@ Route::group(['prefix'=>'app'],function(){
         Route::post('/preview-registration', [App\Http\Controllers\ExamCourseController::class, 'showExamRegistrationPreview'])->name('preview-registration');
         Route::post('/pay-for-exams', [App\Http\Controllers\ExamCourseController::class, 'makePayment'])->name('pay-for-exams');
         Route::post('/get-courses', [App\Http\Controllers\ExamCourseController::class, 'getCourses'])->name('get-courses');
+        Route::get('/my-exams', [App\Http\Controllers\ExamCourseController::class, 'showMyExams'])->name('my-exams');
     });
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExamCourse;
+use App\Models\ExamRegistration;
 use App\Models\ExamType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ class ExamCourseController extends Controller
         $this->middleware('auth');
         $this->examcourse = new  ExamCourse();
         $this->examtype = new ExamType();
+        $this->examregistration = new ExamRegistration();
     }
 
     public function manageExamCourses(){
@@ -162,6 +164,14 @@ class ExamCourseController extends Controller
             session()->flash("error", "Whoops! Something went wrong. Try again.");
             return back();
         }
+    }
+
+    public function showMyExams(){
+
+        return view('exams.my-exams',[
+            'exams'=>$this->examregistration->getExamByUserId(Auth::user()->id)
+        ]);
+
     }
 
 

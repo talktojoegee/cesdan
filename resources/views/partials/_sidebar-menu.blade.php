@@ -24,8 +24,7 @@
             </a>
             <ul class="slide-menu">
                 <li><a href="{{route('register-exams')}}" class="slide-item"> Register Exams</a></li>
-                <li><a href="{{route('subscriptions')}}" class="slide-item">Membership</a></li>
-                <li><a href="{{route('manage-tenants')}}" class="slide-item"> Result</a></li>
+                <li><a href="{{route('my-exams')}}" class="slide-item">My Exams</a></li>
             </ul>
         </li>
 
