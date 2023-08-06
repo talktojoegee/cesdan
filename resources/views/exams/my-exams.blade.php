@@ -33,61 +33,8 @@
                             </div>
                         </div>
                     @endif
-                    <p><strong>Exam details</strong></p>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered text-nowrap">
-                            <tr>
-                                <td colspan="2" class="text-left">
-                                    <strong>Exam:</strong>
-                                </td>
-                                <td>{{ $exam->getExamType->exam_name ?? '' }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="text-left">
-                                    <strong>Cost per paper:</strong>
-                                </td>
-                                <td>{{ number_format($exam->getExamType->cost_per_paper ?? 0 ) }}</td>
-                            </tr>
-                            <tr class="">
-                                <td colspan="2" class="text-left">
-                                    <strong>Number of Papers:</strong>
-                                </td>
-                                <td>{{ number_format(count($exam->getExamCourses) ?? 0 ) }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="text-left">
-                                    <strong>Amount:</strong>
-                                </td>
-                                <td>{{ number_format($exam->total_amount ?? 0 ) }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="text-left">
-                                    <strong>Transaction Fee:</strong>
-                                </td>
-                                <td>{{ number_format($exam->charge ?? 0 ) }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="text-left">
-                                    <strong>Total:</strong>
-                                </td>
-                                <td>{{ number_format($exam->charge + $exam->total_amount ?? 0 ) }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="text-left">
-                                    <strong>Status:</strong>
-                                </td>
-                                <td>
-                                    @if($exam->status == 0)
-                                        <span class="badge rounded-pill bg-info text-white me-1 mb-1 mt-1">New</span>
-                                    @elseif($exam->status == 1)
-                                        <span class="badge rounded-pill bg-success text-white me-1 mb-1 mt-1">Verified</span>
-                                    @elseif($exam->status == 2)
-                                        <span class="badge rounded-pill text-white bg-danger me-1 mb-1 mt-1">Discarded</span>
-                                    @endif
-                                </td>
 
-                            </tr>
-                        </table>
+                    <div class="table-responsive">
                         <p>List of courses registered </p>
                         <table id="data-table1" class="table table-striped table-bordered text-nowrap w-100">
                             <thead>
@@ -117,6 +64,60 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
+                                                        <p><strong>Exam details</strong></p>
+                                                        <table class="table table-striped table-bordered text-nowrap">
+                                                            <tr>
+                                                                <td colspan="2" class="text-left">
+                                                                    <strong>Exam:</strong>
+                                                                </td>
+                                                                <td>{{ $exam->getExamType->exam_name ?? '' }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2" class="text-left">
+                                                                    <strong>Cost per paper:</strong>
+                                                                </td>
+                                                                <td>{{ number_format($exam->getExamType->cost_per_paper ?? 0 ) }}</td>
+                                                            </tr>
+                                                            <tr class="">
+                                                                <td colspan="2" class="text-left">
+                                                                    <strong>Number of Papers:</strong>
+                                                                </td>
+                                                                <td>{{ number_format(count($exam->getExamCourses) ?? 0 ) }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2" class="text-left">
+                                                                    <strong>Amount:</strong>
+                                                                </td>
+                                                                <td>{{ number_format($exam->total_amount ?? 0 ) }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2" class="text-left">
+                                                                    <strong>Transaction Fee:</strong>
+                                                                </td>
+                                                                <td>{{ number_format($exam->charge ?? 0 ) }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2" class="text-left">
+                                                                    <strong>Total:</strong>
+                                                                </td>
+                                                                <td>{{ number_format($exam->charge + $exam->total_amount ?? 0 ) }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2" class="text-left">
+                                                                    <strong>Status:</strong>
+                                                                </td>
+                                                                <td>
+                                                                    @if($exam->status == 0)
+                                                                        <span class="badge rounded-pill bg-info text-white me-1 mb-1 mt-1">New</span>
+                                                                    @elseif($exam->status == 1)
+                                                                        <span class="badge rounded-pill bg-success text-white me-1 mb-1 mt-1">Verified</span>
+                                                                    @elseif($exam->status == 2)
+                                                                        <span class="badge rounded-pill text-white bg-danger me-1 mb-1 mt-1">Discarded</span>
+                                                                    @endif
+                                                                </td>
+
+                                                            </tr>
+                                                        </table>
                                                         <p>List of courses registered.</p>
                                                         <div class="table-responsive">
                                                             <table id="data-table1" class="table table-striped table-bordered text-nowrap w-100">
