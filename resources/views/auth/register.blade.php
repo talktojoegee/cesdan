@@ -72,7 +72,7 @@
                         </div>
                         @error('surname')<div><i class="text-danger">{{$message}}</i></div>@enderror
                         <div class="wrap-input100 validate-input" data-validate = "Enter mobile number">
-                            <input class="input100" type="text" name="mobileNo" value="{{old('mobileNo')}}" placeholder="Mobile number">
+                            <input class="input100" type="number" name="mobileNo" value="{{old('mobileNo')}}" placeholder="Mobile number">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
