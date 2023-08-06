@@ -89,7 +89,7 @@
                                                                     <td colspan="2" class="text-left">
                                                                         <strong>Amount:</strong>
                                                                     </td>
-                                                                    <td>{{ number_format($exam->total_amount ?? 0 ) }}</td>
+                                                                    <td>{{ number_format(($exam->total_amount - $exam->charge)  ?? 0 ) }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td colspan="2" class="text-left">
@@ -101,7 +101,7 @@
                                                                     <td colspan="2" class="text-left">
                                                                         <strong>Total:</strong>
                                                                     </td>
-                                                                    <td>{{ number_format($exam->charge + $exam->total_amount ?? 0 ) }}</td>
+                                                                    <td>{{ number_format( $exam->total_amount ?? 0 ) }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td colspan="2" class="text-left">
