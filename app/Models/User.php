@@ -100,6 +100,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(UserSupportingDocument::class, 'user_id');
     }
 
+    public function getMembership(){
+        return $this->belongsTo(SubscriptionPlan::class, 'membership_plan_id');
+    }
+
 
 
     /*

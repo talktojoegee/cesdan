@@ -3,8 +3,11 @@
 <body class="app sidebar-mini">
 <div class="page">
     <div class="page-main">
-
-@include('partials._sidebar-menu')
+        @if(\Illuminate\Support\Facades\Auth::user()->user_type == 0)
+            @include('partials._sidebar-menu')
+        @else
+            @include('partials._admin-sidebar-menu')
+        @endif
         @include('partials._app-header')
         <div class="app-content">
             <div class="side-app">

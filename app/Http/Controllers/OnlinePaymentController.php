@@ -6,6 +6,10 @@ use App\Mail\WelcomeNewUserMail;
 use App\Models\AdminNotification;
 use App\Models\Bank;
 use App\Models\BulkSmsAccount;
+use App\Models\ExamCourse;
+use App\Models\ExamRegistration;
+use App\Models\ExamRegistrationCourse;
+use App\Models\ExamType;
 use App\Models\InvoiceMaster;
 use App\Models\Pricing;
 use App\Models\ReceiptMaster;
@@ -36,6 +40,7 @@ class OnlinePaymentController extends Controller
         $this->survey = new Survey();
         $this->surveyresponse = new SurveyResponse();
         $this->adminnotification = new AdminNotification();
+        $this->examtype = new ExamType();
     }
 
     public function initializePaystack(){
@@ -76,32 +81,33 @@ class OnlinePaymentController extends Controller
                             $body = $tranx->data->metadata->surname." just registered on ".env("APP_NAME");
                             $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);
                             #Send welcome email
-                            try{
-                                \Mail::to($user)->send(new WelcomeNewUserMail($user) );
+                               // \Mail::to($user)->send(new WelcomeNewUserMail($user) );
                                 session()->flash("success", "Your registration was successful. However, you'll have to complete your profile when you do login. <a href='".route('login')."'>Click here</a> to login.");
-                                return redirect()->route('login');
-                            }catch (\Exception $ex){
-                                session()->flash("error", "We had trouble sending you a mail. Though your account was created.");
-                                return back();
-                            }
-                            session()->flash("success", "Your registration was successful. However, you'll have to complete your profile when you do login. <a href='".route('login')."'>Click here</a> to login.");
                             return redirect()->route('login');
-                    }
-                   /* switch ($transaction_type){
-                        case 3:
-                            $subject = "New registration";
-                            $body = $tranx->data->metadata->surname." just registered on ".env("APP_NAME");
-                            $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);
-                            #Send welcome email
-                            try{
-                                \Mail::to($user)->send(new WelcomeNewUserMail($user) );
-                                session()->flash("success", "Your registration was successful. However, you'll have to complete your profile when you do login. <a href='".route('login')."'>Click here</a> to login.");
-                                return redirect()->route('login');
-                            }catch (\Exception $ex){
-                                session()->flash("error", "We had trouble sending you a mail. Though your account was created.");
-                                return back();
+                        case 4: //exam registration
+                            $courseIds = $tranx->data->metadata->courses;
+                            $userId = $tranx->data->metadata->user;
+                            $examId = $tranx->data->metadata->exam;
+                            $charge = $tranx->data->metadata->charge;
+                            $amount = $tranx->data->amount;
+                            $examType = $this->examtype->getExamById($examId);
+                            if(!empty($examType)){
+                                $courses = ExamCourse::getSelectedCourses($courseIds);
+                                $examReg = ExamRegistration::registerExam($userId, $examId, $amount, $charge);
+                                if(count($courses) > 0 ){
+                                    foreach($courses as $course){
+                                        ExamRegistrationCourse::registerExamCourses($examReg->id, $course);
+                                    }
+                                }
+                                session()->flash("success", "Your exam registration was successful.");
+                                return redirect()->route('register-exams');
+                            }else{
+                                abort(404);
                             }
-                    }*/
+
+
+
+                    }
                 }catch (Paystack\Exception\ApiException $ex){
                     session()->flash("error", "Whoops! Something went wrong.");
                     return redirect()->route('register');

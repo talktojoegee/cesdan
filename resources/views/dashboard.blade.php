@@ -8,40 +8,6 @@
 @endsection
 
 @section('main-content')
-    <!-- ROW-1 -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card  banner">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xl-3 col-lg-2 text-center">
-                            <img src="/assets/images/pngs/profit.png" id="greeting-image" alt="img" class="w-95">
-                        </div>
-                        <div class="col-xl-9 col-lg-10 pl-lg-0">
-                            <div class="row">
-                                <div class="col-xl-7 col-lg-6">
-                                    <div class="text-left text-white mt-xl-4">
-                                        <h3 class="font-weight-semibold"><span id="greeting"></span> {{Auth::user()->first_name ?? '' }}</h3>
-                                        <q>{{$motivation->motivation ?? ''}}</q>
-                                        <blockquote class="mt-3">{{$motivation->author ?? 'Unknown'}}</blockquote>
-                                    </div>
-                                </div>
-                                <div class="col-xl-5 col-lg-6 text-lg-center mt-xl-4">
-                                    <h5 class="font-weight-semibold mb-1 text-white">This Month's Sales</h5>
-                                    <h2 class="display-2 mb-3 number-font text-white">{{'₦'.number_format($thisMonth->sum('amount'),2)}}</h2>
-                                    <div class="btn-list mb-xl-0">
-                                        <a href="{{route('manage-receipts', ['account'=>$account])}}" class="btn btn-dark mb-xl-0">Check Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ROW-1 End-->
-
     <!-- Row -->
     <div class="row">
 
@@ -50,16 +16,16 @@
                 <div class="card-body">
                     <div class="row mb-1">
                         <div class="col">
-                            <p class="mb-1">Revenue <small>(Inflow)</small></p>
-                            <h3 class="mb-0 number-font">{{'₦'.number_format($receipts->where('posted',1)->sum('amount'))}}</h3>
+                            <p class="mb-1">Members</p>
+                            <h3 class="mb-0 number-font">{{number_format($receipts->where('posted',1)->sum('amount'))}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-secondary1">
-                                <i class="bx bxs-wallet"></i>
+                                <i class="bx bxs-user"></i>
                             </div>
                         </div>
                     </div>
-                    <span class="fs-12 text-muted"> <span class="text-muted fs-12 ml-0 mt-1">This Year</span></span>
+                    <span class="fs-12 text-muted"> <span class="text-muted fs-12 ml-0 mt-1">Total</span></span>
                 </div>
             </div>
         </div>
@@ -68,12 +34,12 @@
                 <div class="card-body">
                     <div class="row mb-1">
                         <div class="col">
-                            <p class="mb-1">Expenses <small>(Outflow)</small></p>
+                            <p class="mb-1">Examinations</p>
                             <h3 class="mb-0 number-font">{{'₦'.number_format($payments->where('posted',1)->sum('amount'))}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-orange">
-                                <i class="bx bxs-shopping-bags"></i>
+                                <i class="bx bxs-book-open"></i>
                             </div>
                         </div>
                     </div>
@@ -86,7 +52,7 @@
                 <div class="card-body">
                     <div class="row mb-1">
                         <div class="col">
-                            <p class="mb-1">Unpaid Invoices</p>
+                            <p class="mb-1">Registrations</p>
                             <h3 class="mb-0 number-font">{{'₦'.number_format(($invoices->where('posted',1)->sum('total')) - ($invoices->where('posted',1)->sum('paid_amount')))}}</h3>
                         </div>
                         <div class="col-auto mb-0">
@@ -104,7 +70,7 @@
                 <div class="card-body">
                     <div class="row mb-1">
                         <div class="col">
-                            <p class="mb-1">Unpaid Bills</p>
+                            <p class="mb-1">Subscription</p>
                             <h3 class="mb-0 number-font">{{'₦'.number_format(($bills->where('posted',1)->sum('bill_amount')) - ($bills->where('posted',1)->sum('paid_amount')))}}</h3>
                         </div>
                         <div class="col-auto mb-0">

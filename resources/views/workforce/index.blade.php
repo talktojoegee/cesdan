@@ -22,6 +22,82 @@
 
 @section('main-content')
     <div class="row">
+
+        <div class="col-xl-3 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-1">
+                        <div class="col">
+                            <p class="mb-1">Members</p>
+                            <h3 class="mb-0 number-font">{{number_format($users->count())}}</h3>
+                        </div>
+                        <div class="col-auto mb-0">
+                            <div class="dash-icon text-secondary1">
+                                <i class="bx bxs-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="fs-12 text-muted"> <span class="text-muted fs-12 ml-0 mt-1">Total</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-1">
+                        <div class="col">
+                            <p class="mb-1">Members</p>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('account_status',2)->count())}}</h3>
+                        </div>
+                        <div class="col-auto mb-0">
+                            <div class="dash-icon text-orange">
+                                <i class="bx bxs-book-open"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="fs-12 text-muted"> <span class="text-muted fs-12 ml-0 mt-1">Awaiting Payment</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-1">
+                        <div class="col">
+                            <p class="mb-1">Members</p>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('account_status',4)->count())}}</h3>
+                        </div>
+                        <div class="col-auto mb-0">
+                            <div class="dash-icon text-secondary">
+                                <i class="bx bxs-badge-dollar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="fs-12 text-muted">  <span class="text-muted fs-12 ml-0 mt-1">Verified</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-1">
+                        <div class="col">
+                            <p class="mb-1">Members</p>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('account_status',5)->count())}}</h3>
+                        </div>
+                        <div class="col-auto mb-0">
+                            <div class="dash-icon text-warning">
+                                <i class="bx bxs-calendar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="fs-12 text-muted">  <span class="text-muted fs-12 ml-0 mt-1">Expired Subscription</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">

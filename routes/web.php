@@ -176,6 +176,17 @@ Route::group(['prefix'=>'app'],function(){
         Route::post('/change-avatar',[App\Http\Controllers\WorkforceController::class, 'changeAvatar'])->name('change-avatar');
     });
 
+    Route::prefix('/exams')->group(function(){
+        Route::get('/manage-courses', [App\Http\Controllers\ExamCourseController::class, 'manageExamCourses'])->name('manage-courses');
+        Route::post('/add-course', [App\Http\Controllers\ExamCourseController::class, 'addCourse'])->name('add-exam-course');
+        Route::post('/edit-exam-course', [App\Http\Controllers\ExamCourseController::class, 'editExamCourse'])->name('edit-exam-course');
+        Route::get('/registrations', [App\Http\Controllers\ExamCourseController::class, 'showRegistrations'])->name('show-registrations');
+        Route::get('/register-exams', [App\Http\Controllers\ExamCourseController::class, 'showRegisterExams'])->name('register-exams');
+        Route::post('/preview-registration', [App\Http\Controllers\ExamCourseController::class, 'showExamRegistrationPreview'])->name('preview-registration');
+        Route::post('/pay-for-exams', [App\Http\Controllers\ExamCourseController::class, 'makePayment'])->name('pay-for-exams');
+        Route::post('/get-courses', [App\Http\Controllers\ExamCourseController::class, 'getCourses'])->name('get-courses');
+    });
+
 
     Route::get('/view-training/{slug}',[App\Http\Controllers\HomeController::class, 'viewTraining'])->name('view-training');
     Route::get('/view-grant/{slug}',[App\Http\Controllers\HomeController::class, 'viewGrant'])->name('view-grant');
@@ -276,6 +287,7 @@ Route::prefix('/tunnel')->group(function(){
 });
 
 Auth::routes();
+Route::post('/continue', [App\Http\Controllers\Auth\RegisterController::class, 'continue'])->name('continue');
 Route::get('logout', [App\Http\Controllers\Auth\LoginController::class,'logout']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/shared/survey/{slug}', [App\Http\Controllers\OnlinePaymentController::class, 'sharedSurvey'])->name('shared-survey');

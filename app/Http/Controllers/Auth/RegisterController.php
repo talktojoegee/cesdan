@@ -79,7 +79,7 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function register(Request $request){
+    public function continue(Request $request){
         $this->validate($request,[
             'registrationNo'=>'required',
             'surname'=>'required',
@@ -98,9 +98,42 @@ class RegisterController extends Controller
             'terms.required'=>'Accept our terms & conditions to continue with this registration',
             'mobileNo.required'=>'Enter a functional mobile phone number',
         ]);
+        return view('auth.continue',['request'=>$request]);
+
+    }
+    public function register(Request $request){
+        $this->validate($request,[
+            'registrationNo'=>'required',
+            'surname'=>'required',
+            'email'=>'required|email|unique:users,email',
+            'password'=>'required',
+            //'terms'=>'required',
+            'mobileNo'=>'required',
+        ],[
+            'registrationNo.required'=>'Registration Number is required',
+            'surname.required'=>'Enter your surname in the field provided',
+            'email.required'=>'Enter a valid email address',
+            'email.email'=>'Enter a valid email address',
+            'email.unique'=>'Whoops! Another account exists with this email',
+            'password.required'=>'Choose a password',
+            //'password.confirmed'=>'Your chosen password does not match re-type password',
+            //'terms.required'=>'Accept our terms & conditions to continue with this registration',
+            'mobileNo.required'=>'Enter a functional mobile phone number',
+        ]);
             try{
                 $paystack = new Paystack(env('PAYSTACK_SECRET_KEY'));
                 $amount = 25000; //$request->amount;
+
+                $amountCharge = number_format(($amount * 100)/98.5,2, ".",""); //Amount plus charge
+                $charge = $amountCharge - $amount;
+                if($amount >= 2500){
+                    $charge = ($charge + 1.5)+100;
+                }
+                $charge = $charge + 0.03;
+                if($charge > 2000){
+                    $charge = 2000;
+                }
+
                 $builder = new Paystack\MetadataBuilder();
                 $builder->withRegistration($request->registrationNo);
                 $builder->withSurname($request->surname);
@@ -109,17 +142,21 @@ class RegisterController extends Controller
                 $builder->withEmail($request->email);
                 $builder->withTransaction(3);
                 $metadata = $builder->build();
-                //$charge = ceil($cost*1.5)/100;
                 $tranx = $paystack->transaction->initialize([
-                    'amount'=>$amount*100,       // in kobo
+                    'amount'=>($amount+$charge)*100,       // in kobo
                     'email'=>$request->email,         // unique to customers
-                    'reference'=>substr(sha1(time()),23,40), // unique to transactions
+                    //'reference'=>sha1(time()), // unique to transactions
                     'metadata'=>$metadata
                 ]);
                 return redirect()->to($tranx->data->authorization_url)->send();
             }catch (Paystack\Exception\ApiException $exception){
                 session()->flash("error", "Whoops! Something went wrong. Try again.");
-                return back();
+                return back(); //https://members.cidsan.org/process/payment
             }
     }
+
+
+
+
+
 }

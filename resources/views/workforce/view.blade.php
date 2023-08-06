@@ -680,15 +680,18 @@
                                     <label for="" class="badge badge-secondary "> <i class="fe fe-check"></i> Verified</label>
                                 @endif
 
+                                @if(Auth::user()->user_type == 1)
+
                                 <label data-toggle="modal" data-target="#status-update" style="cursor: pointer;" for="" class="badge badge-info ">Update Status <i class="fe fe-edit"></i> </label>
 
+                                @endif
                             </div>
                             <div class="wideget-user-img">
                                 <img class="" src="/assets/drive/{{Auth::user()->avatar ?? "avatar.jpg"}}" alt="img">
                             </div>
                             <div class="user-wrap">
                                 <h4 class="mb-1">{{$user->first_name ?? '' }} {{$user->surname ?? '' }}</h4>
-                                <h6 class="text-muted mb-4">Member Since: {{date('d M, Y', strtotime($user->created_at))}}</h6>
+                                <h6 class="text-muted mb-4"><span class="badge text-white rounded-pill bg-success me-1 mb-1 mt-1">{{ $user->getMembership->name ?? ''  }}</span> </h6>
                             </div>
                             <span> <i class="fe fa-pencil text-warning"></i> </span>
                         </div>
