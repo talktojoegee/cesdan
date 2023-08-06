@@ -89,7 +89,7 @@ class OnlinePaymentController extends Controller
                             $userId = $tranx->data->metadata->user;
                             $examId = $tranx->data->metadata->exam;
                             $charge = $tranx->data->metadata->charge;
-                            $amount = $tranx->data->amount;
+                            $amount = $tranx->data->amount/100;
                             $examType = $this->examtype->getExamById($examId);
                             if(!empty($examType)){
                                 $courses = ExamCourse::getSelectedCourses($courseIds);
