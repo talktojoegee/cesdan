@@ -48,6 +48,13 @@ class ExamRegistration extends Model
 
 
 
+        public function getExamRegistrationById($id){
+            return ExamRegistration::find($id);
+        }
+
+
+
+
 
 
 }

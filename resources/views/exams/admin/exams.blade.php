@@ -64,7 +64,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>List of courses registered.</p>
+                                                        <p><strong>Exam Details</strong></p>
                                                         <div class="table-responsive">
                                                             <table class="table table-striped table-bordered text-nowrap">
                                                                 <tr>
@@ -103,7 +103,89 @@
                                                                     </td>
                                                                     <td>{{ number_format($exam->charge + $exam->total_amount ?? 0 ) }}</td>
                                                                 </tr>
+                                                                <tr>
+                                                                    <td colspan="2" class="text-left">
+                                                                        <strong>Status:</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        @if($exam->status == 0)
+                                                                            <span class="badge rounded-pill bg-info text-white me-1 mb-1 mt-1">New</span>
+                                                                        @elseif($exam->status == 1)
+                                                                            <span class="badge rounded-pill bg-success text-white me-1 mb-1 mt-1">Verified</span>
+                                                                        @elseif($exam->status == 2)
+                                                                            <span class="badge rounded-pill text-white bg-danger me-1 mb-1 mt-1">Discarded</span>
+                                                                        @endif
+
+                                                                        @if($exam->status == 0)
+                                                                                <p style="cursor: pointer;">
+                                                                                    <span data-toggle="modal" data-target="#verifyPayment_{{$exam->id}}"><i class="fe fe-check-circle text-success" ></i> Verify Payment  &nbsp; &nbsp; &nbsp;</span> |
+                                                                                    <span data-toggle="modal" data-target="#discardPayment_{{$exam->id}}">&nbsp; &nbsp; &nbsp;
+                                                                            <i class="fe fe-x-circle text-danger" ></i> Discard Payment</span>
+                                                                                </p>
+                                                                                <div class="modal" id="verifyPayment_{{$exam->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                                                    <div class="modal-dialog" role="document">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
+                                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <div class="card-body">
+                                                                                                    <form action="{{route('update-exam-status')}}" method="post">
+                                                                                                        @csrf
+                                                                                                        <p class="text-wrap"> This action cannot be undone. Are you sure you want to <b class="text-info">verify</b> this exam registration payment?</p>
+                                                                                                        <div class="card-footer text-right">
+                                                                                                            <input
+                                                                                                                type="hidden" name="examId" value="{{$exam->id}}">
+                                                                                                            <input
+                                                                                                                type="hidden" name="type" value="1">
+                                                                                                            <a href="#" data-dismiss="modal"  class="btn btn-danger">Cancel</a>
+                                                                                                            <button type="submit" class="btn btn-primary">Yes</button>
+                                                                                                        </div>
+                                                                                                    </form>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal" id="discardPayment_{{$exam->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                                                    <div class="modal-dialog" role="document">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
+                                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <div class="card-body">
+                                                                                                    <form action="{{route('update-exam-status')}}" method="post">
+                                                                                                        @csrf
+                                                                                                        <p class="text-wrap"> This action cannot be undone. Are you sure you want to <b class="text-danger">discard</b> this exam registration payment?</p>
+                                                                                                        <div class="card-footer text-right">
+                                                                                                            <input
+                                                                                                                type="hidden" name="examId" value="{{$exam->id}}">
+                                                                                                            <input
+                                                                                                                type="hidden" name="type" value="2">
+                                                                                                            <a href="#" data-dismiss="modal"  class="btn btn-danger">Cancel</a>
+                                                                                                            <button type="submit" class="btn btn-primary">Yes</button>
+                                                                                                        </div>
+                                                                                                    </form>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                        @endif
+
+
+                                                                    </td>
+
+                                                                </tr>
                                                             </table>
+                                                            <p>List of registered courses</p>
                                                             <table id="data-table1" class="table table-striped table-bordered text-nowrap w-100">
                                                                 <thead>
                                                                 <tr>

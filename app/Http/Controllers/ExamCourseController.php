@@ -184,4 +184,25 @@ class ExamCourseController extends Controller
     }
 
 
+    public function updateExamStatus(Request $request){
+        if(Auth::user()->user_type != 1){
+            return back();
+        }
+        $this->validate($request,[
+            'type'=>'required',
+            'examId'=>'required'
+        ]);
+        $examReg = $this->examregistration->getExamRegistrationById($request->examId);
+        if(!empty($examReg)){
+            $examReg->status = $request->type;
+            $examReg->actioned_by = Auth::user()->id;
+            $examReg->action_date = now();
+            $examReg->save();
+            session()->flash('success', 'Action successful!');
+            return back();
+        }
+        abort(404);
+    }
+
+
 }
