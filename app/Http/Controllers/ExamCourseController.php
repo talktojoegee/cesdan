@@ -171,7 +171,16 @@ class ExamCourseController extends Controller
         return view('exams.my-exams',[
             'exams'=>$this->examregistration->getExamByUserId(Auth::user()->id)
         ]);
+    }
 
+
+    public function manageExams(){
+        if(Auth::user()->user_type != 1){
+            return back();
+        }
+        return view('exams.admin.exams',[
+            'exams'=>$this->examregistration->getExamRegistrations()
+        ]);
     }
 
 

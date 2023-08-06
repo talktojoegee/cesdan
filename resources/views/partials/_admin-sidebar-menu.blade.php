@@ -34,9 +34,8 @@
                 <span class="side-menu__label">Examination</span><i class="angle fa fa-angle-right"></i>
             </a>
             <ul class="slide-menu">
-                <li><a href="{{route('show-registrations')}}" class="slide-item"> Registrations</a></li>
+                <li><a href="{{route('manage-exams')}}" class="slide-item"> Registrations</a></li>
                 <li><a href="{{route('manage-courses')}}" class="slide-item"> Courses</a></li>
-                <li><a href="#" class="slide-item">Exams</a></li>
 
             </ul>
         </li>

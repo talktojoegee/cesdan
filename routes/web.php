@@ -178,6 +178,7 @@ Route::group(['prefix'=>'app'],function(){
 
     Route::prefix('/exams')->group(function(){
         Route::get('/manage-courses', [App\Http\Controllers\ExamCourseController::class, 'manageExamCourses'])->name('manage-courses');
+        Route::get('/manage-exams', [App\Http\Controllers\ExamCourseController::class, 'manageExams'])->name('manage-exams');
         Route::post('/add-course', [App\Http\Controllers\ExamCourseController::class, 'addCourse'])->name('add-exam-course');
         Route::post('/edit-exam-course', [App\Http\Controllers\ExamCourseController::class, 'editExamCourse'])->name('edit-exam-course');
         Route::get('/registrations', [App\Http\Controllers\ExamCourseController::class, 'showRegistrations'])->name('show-registrations');
