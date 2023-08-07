@@ -723,7 +723,7 @@
                                 <td><strong>Department :</strong> {{$user->department ?? '' }}</td>
                             </tr>
                             <tr>
-                                <td><strong>Start Date :</strong> {{ date('d M, Y', strtotime($user->start_date)) }}</td>
+                                <td><strong>Start Date :</strong> {{ !is_null($user->start_date) ? date('d M, Y', strtotime($user->start_date)) : '' }}</td>
                             </tr>
                             <tr>
                                 <td><strong>Sector 2 :</strong> {{ $user->getSectorTwo->sector_name  ?? '' }}</td>
