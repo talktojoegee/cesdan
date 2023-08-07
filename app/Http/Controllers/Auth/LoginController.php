@@ -63,12 +63,11 @@ class LoginController extends Controller
         if(!empty($user)){
 
             if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password], $request->remember)){
-                if($user->account_status == 0){
-                    session()->flash("error", "Your profile is not complete. Kindly take a moment to enter the necessary information.");
-                    return redirect()->route('view-profile', $user->slug);
+                if(($user->payment_method_verification == 0) && ($user->payment_method == 2)){
+                    session()->flash("error", "We're still reviewing your account.");
+                    return redirect()->route('login');
                 }
                 return redirect()->route('view-profile', $user->slug);
-                //return redirect()->route('dashboard');
             }else{
                 session()->flash("error", " Wrong or invalid login credentials. Try again.");
                 return back();

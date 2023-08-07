@@ -133,7 +133,7 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
-    public static function handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo){
+    public static function handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo, $amount, $method, $verify){
         $user = new User();
         $user->first_name = null;
         $user->surname = $surname ?? '' ;
@@ -142,6 +142,9 @@ class User extends Authenticatable implements JWTSubject
         $user->mobile_no = $mobileNo ?? null;
         $user->start_date = now();
         $user->end_date = now();
+        $user->amount = $amount ?? 0;
+        $user->payment_method = $method ?? 0;
+        $user->payment_method_verification = $verify ?? 0;
         $user->tenant_id = 1;
         $user->account_status = 0;
         $user->active_sub_key = $registrationNo ?? null; //active_sub_key holds the registration number
@@ -266,6 +269,13 @@ class User extends Authenticatable implements JWTSubject
 
     public function getAllTenantUsersByTenantId($tenant_id){
         return User::where('tenant_id', $tenant_id)->get();
+    }
+
+    public function getAllUsers(){
+        return User::orderBy('id', 'DESC')->get();
+    }
+    public function getAllAdminUsers(){
+        return User::where('user_type',1)->orderBy('id', 'DESC')->get();
     }
 
     public function getUserBySlug($slug){

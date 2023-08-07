@@ -41,7 +41,8 @@ class WorkforceController extends Controller
     }
 
     public function manageWorkforce(){
-        return view('workforce.index',['users'=>$this->user->getAllTenantUsersByTenantId(Auth::user()->tenant_id)]);
+        return view('workforce.index',
+            ['users'=>$this->user->getAllTenantUsersByTenantId(Auth::user()->tenant_id)]);
     }
 
     public function viewProfile(Request $request){
@@ -293,6 +294,12 @@ class WorkforceController extends Controller
             session()->flash("error", "<strong>Whoops!</strong> The password you entered does not match our record.");
             return back();
         }
+    }
+
+    public function getAdminUsers(){
+        return view('workforce.admin.index',[
+            'users'=>$this->user->getAllAdminUsers(),
+        ]);
     }
 
 

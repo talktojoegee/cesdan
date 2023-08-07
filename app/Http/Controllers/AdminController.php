@@ -35,7 +35,7 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin');
+        $this->middleware('auth');
         $this->adminuser = new AdminUser();
         $this->tenant = new Tenant();
         $this->subscription = new Subscription();

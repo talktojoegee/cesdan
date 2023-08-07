@@ -1,9 +1,9 @@
 @extends('layouts.master-layout')
 @section('active-page')
-    Team Members
+    Admin Users
 @endsection
 @section('title')
-    Team Members
+    Admin Users
 @endsection
 @section('extra-styles')
 

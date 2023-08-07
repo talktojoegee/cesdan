@@ -167,6 +167,7 @@ Route::group(['prefix'=>'app'],function(){
     });
     Route::prefix('/account')->group(function(){
         Route::get('/members',[App\Http\Controllers\WorkforceController::class, 'manageWorkforce'])->name('manage-members');
+        Route::get('/admin-users',[App\Http\Controllers\WorkforceController::class, 'getAdminUsers'])->name('manage-admin-users');
         Route::post('/user-status-update',[App\Http\Controllers\WorkforceController::class, 'userStatusUpdate'])->name('user-status-update');
         Route::get('/{slug}',[App\Http\Controllers\WorkforceController::class, 'viewProfile'])->name('view-profile');
         Route::get('/new-member',[App\Http\Controllers\WorkforceController::class, 'showNewTeamMemberForm'])->name('add-new-team-member');
@@ -188,6 +189,10 @@ Route::group(['prefix'=>'app'],function(){
         Route::post('/pay-for-exams', [App\Http\Controllers\ExamCourseController::class, 'makePayment'])->name('pay-for-exams');
         Route::post('/get-courses', [App\Http\Controllers\ExamCourseController::class, 'getCourses'])->name('get-courses');
         Route::get('/my-exams', [App\Http\Controllers\ExamCourseController::class, 'showMyExams'])->name('my-exams');
+
+        Route::get('/manage-admin-users',[App\Http\Controllers\AdminController::class, 'manageAdminUsers'])->name('manage-admin-users');
+        Route::get('/add-new-user',[App\Http\Controllers\AdminController::class, 'showAddNewUserForm'])->name('add-new-admin-user');
+        Route::post('/add-new-user',[App\Http\Controllers\AdminController::class, 'storeAdminUser']);
     });
 
 
@@ -227,9 +232,9 @@ Route::post('/process-subscription-renewal',[App\Http\Controllers\Auth\LoginCont
 Route::prefix('/tunnel')->group(function(){
     Route::get('/',[App\Http\Controllers\AdminAuth\LoginController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/',[App\Http\Controllers\AdminAuth\LoginController::class, 'login']);
-    Route::get('/add-new-user',[App\Http\Controllers\AdminController::class, 'showAddNewUserForm'])->name('add-new-admin-user');
-    Route::get('/manage-admin-users',[App\Http\Controllers\AdminController::class, 'manageAdminUsers'])->name('manage-admin-users');
-    Route::post('/add-new-user',[App\Http\Controllers\AdminController::class, 'storeAdminUser']);
+    /*Route::get('/add-new-user',[App\Http\Controllers\AdminController::class, 'showAddNewUserForm'])->name('add-new-admin-user');*/
+    /*Route::get('/manage-admin-users',[App\Http\Controllers\AdminController::class, 'manageAdminUsers'])->name('manage-admin-users');
+    Route::post('/add-new-user',[App\Http\Controllers\AdminController::class, 'storeAdminUser']);*/
     Route::get('/dashboard',[App\Http\Controllers\AdminController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::get('/manage-tenants',[App\Http\Controllers\AdminController::class, 'manageTenants'])->name('manage-tenants');
     Route::get('/add-new-tenant',[App\Http\Controllers\AdminController::class, 'showAddNewTenantForm'])->name('add-new-tenant');

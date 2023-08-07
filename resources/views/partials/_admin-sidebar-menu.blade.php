@@ -24,8 +24,6 @@
             </a>
             <ul class="slide-menu">
                 <li><a href="{{route('manage-members')}}" class="slide-item"> Manage Members</a></li>
-                <li><a href="{{route('subscriptions')}}" class="slide-item">Subscriptions</a></li>
-                <li><a href="{{route('subscriptions')}}" class="slide-item">Levels</a></li>
             </ul>
         </li>
         <li class="slide">
@@ -45,9 +43,9 @@
                 <span class="side-menu__label">Administration</span><i class="angle fa fa-angle-right"></i>
             </a>
             <ul class="slide-menu">
-                <li><a href="#" class="slide-item"> All Users</a></li>
-                <li><a href="#" class="slide-item">Add New User</a></li>
-                <li><a href="#" class="slide-item">Logout</a></li>
+                <li><a href="{{ route('manage-admin-users') }}" class="slide-item"> All Users</a></li>
+                <li><a href="{{ route('add-new-admin-user') }}" class="slide-item">Add New User</a></li>
+                <li><a href="{{ route('logout') }}" class="slide-item">Logout</a></li>
             </ul>
         </li>
     </ul>

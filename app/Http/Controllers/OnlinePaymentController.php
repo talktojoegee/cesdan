@@ -76,7 +76,7 @@ class OnlinePaymentController extends Controller
                             $mobileNo = $tranx->data->metadata->mobile;
                             $email = $tranx->data->metadata->email;
                             $amount = $tranx->data->amount;
-                            $user = User::handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo);
+                            $user = User::handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo, $amount, 1, 1);
                             $subject = "New registration";
                             $body = $tranx->data->metadata->surname." just registered on ".env("APP_NAME");
                             $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);

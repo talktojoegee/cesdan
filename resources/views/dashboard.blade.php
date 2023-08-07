@@ -17,7 +17,7 @@
                     <div class="row mb-1">
                         <div class="col">
                             <p class="mb-1">Members</p>
-                            <h3 class="mb-0 number-font">{{number_format($receipts->where('posted',1)->sum('amount'))}}</h3>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type', 0)->count() )}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-secondary1">
@@ -91,35 +91,51 @@
         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Recent Orders</h3>
+                    <h3 class="card-title">Recent Members</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover text-nowrap mb-0">
+                        <table id="data-table1" class="table table-striped table-bordered text-nowrap w-100">
                             <thead>
                             <tr>
-                                <th>Receipt No.</th>
-                                <th>Customer</th>
-                                <th>Bank</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Action</th>
+                                <th class="">#</th>
+                                <th class="wd-15p">First name</th>
+                                <th class="wd-15p">Last name</th>
+                                <th class="wd-20p">Status</th>
+                                <th class="wd-20p">Category</th>
+                                <th class="wd-15p">Phone No.</th>
+                                <th class="wd-25p">E-mail</th>
+                                <th class="wd-25p">Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             @php $serial = 1; @endphp
-                                @foreach($receipts->take(10) as $receipt)
-                                    <tr>
-                                    <td>#{{$receipt->receipt_no ?? '' }}</td>
-                                    <td>{{$receipt->getContact->company_name ?? '' }}</td>
-                                    <td>{{$receipt->getBank->bank ?? '' }} ({{$receipt->getBank->account_no ?? ''}})</td>
-                                    <td class="">{{'₦'.number_format($receipt->amount,2)}}</td>
-                                    <td>{{date('d M, Y', strtotime($receipt->created_at))}}</td>
+                            @foreach($users as $user)
+                                <tr>
+                                    <td>{{$serial++}}</td>
+                                    <td>{{$user->first_name ?? '' }}</td>
+                                    <td>{{$user->surname ?? '' }}</td>
                                     <td>
-                                        <a href="{{route('view-receipt', ['account'=>$account, 'slug'=>$receipt->slug])}}" class=""><i class="ti-eye"></i></a>
+                                        @if($user->account_status == 1)
+                                            <label for="" class="badge badge-info ">Active</label>
+                                        @elseif($user->account_status == 0)
+                                            <label for="" class="badge badge-secondary "> <i class="fe fe-clock"></i> Incomplete</label>
+                                        @elseif($user->account_status == 2)
+                                            <label for="" class="badge badge-warning "> <i class="fe fe-loader"></i> Pending</label>
+                                        @elseif($user->account_status == 3)
+                                            <label for="" class="badge badge-primary "> <i class="fe fe-clock"></i> Paid</label>
+                                        @elseif($user->account_status == 4)
+                                            <label for="" class="badge badge-secondary "> <i class="fe fe-check"></i> Verified</label>
+                                        @endif
                                     </td>
+                                    <td>
+                                        {{ $user->getMembership->name ?? ''  }}
+                                    </td>
+                                    <td>{{$user->mobile_no ?? '' }}</td>
+                                    <td>{{$user->email ?? '' }}</td>
+                                    <td><a href="{{route('view-profile', ['account'=>$account, 'slug'=>$user->slug])}}" class="btn btn-info btn-sm"><i class="ti-eye mr-2"></i></a></td>
                                 </tr>
-                                @endforeach
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -131,25 +147,5 @@
 
 @endsection
 @section('extra-scripts')
-    <script>
-        $(document).ready(function(){
-            var now = new Date();
-            var hrs = now.getHours();
-            var msg = "";
-            var src = "";
-            if (hrs >  0){
-                msg = "Morning";
-                src = "/assets/drive/good-morning.jpg";
 
-            } // REALLY early
-            if (hrs >  6) {msg = "Good morning"; src = "/assets/drive/good-morning.jpg"; }     // After 6am
-            if (hrs >= 12) {msg = "Good afternoon"; src = "/assets/drive/good-afternoon.jpg";}    // After 12pm
-            if (hrs >= 16) {msg = "Good evening"; src = "/assets/drive/good-evening.jpg";}      // After 5pm
-            if (hrs > 22) {msg = "Well done!"; src = "/assets/drive/late-night.jpg"; }        // After 10pm
-            $('#greeting').text(msg);
-            $('#greeting-image').attr('src',src);
-
-        });
-
-    </script>
 @endsection

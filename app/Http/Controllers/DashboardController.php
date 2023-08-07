@@ -10,6 +10,7 @@ use App\Models\PaymentMaster;
 use App\Models\ReceiptMaster;
 use App\Models\Reminder;
 use App\Models\TenantNotification;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,7 @@ class DashboardController extends Controller
         $this->contact = new Contact();
         $this->dailymotivation = new DailyMotivation();
         $this->reminder = new Reminder();
+        $this->user = new User();
     }
 
     public function index(){
@@ -46,7 +48,8 @@ class DashboardController extends Controller
             'contacts'=>$this->contact->getTenantContacts(Auth::user()->tenant_id),
             'motivation'=>$this->dailymotivation->getDailyRandomMotivation($period),
             'thisMonth'=>$this->receiptmaster->getAllTenantReceiptsThisMonth(),
-            'reminders'=>$this->reminder->getAllTenantReminders()
+            'reminders'=>$this->reminder->getAllTenantReminders(),
+            'users'=>$this->user->getAllUsers(),
         ]);
     }
 

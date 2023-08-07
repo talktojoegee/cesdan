@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeNewUserMail;
 use App\Models\AdminNotification;
 use App\Models\Tenant;
 use App\Providers\RouteServiceProvider;
@@ -87,6 +88,7 @@ class RegisterController extends Controller
             'password'=>'required|confirmed',
             'terms'=>'required',
             'mobileNo'=>'required',
+            'payment_method'=>'required',
         ],[
             'registrationNo.required'=>'Registration Number is required',
             'surname.required'=>'Enter your surname in the field provided',
@@ -97,8 +99,21 @@ class RegisterController extends Controller
             'password.confirmed'=>'Your chosen password does not match re-type password',
             'terms.required'=>'Accept our terms & conditions to continue with this registration',
             'mobileNo.required'=>'Enter a functional mobile phone number',
+            'payment_method.required'=>'Choose payment method',
         ]);
-        return view('auth.continue',['request'=>$request]);
+        if($request->payment_method == 2){
+             User::handlePaidRegistration($request->surname, $request->password, $request->email, $request->mobileNo, $request->registrationNo, 0, 2,0);
+            try{
+                //\Mail::to($user)->send(new WelcomeNewUserMail($user) );
+                session()->flash("success", "Your payment was successful, However, you'll have to complete your registration.  <a href='".route('login')."'>Login </a> now with your credentials to complete your registration ");
+                return redirect()->route('login');
+            }catch (\Exception $exception){
+                abort(404);
+            }
+        }else{
+            return view('auth.continue',['request'=>$request]);
+        }
+
 
     }
     public function register(Request $request){
