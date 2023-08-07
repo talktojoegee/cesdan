@@ -58,6 +58,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Tenant::class, 'tenant_id');
     }
 
+    public function getMaritalStatus(){
+        return $this->belongsTo(MaritalStatus::class, 'marital_status');
+    }
+    public function getHeardFrom(){
+        return $this->belongsTo(HeardFrom::class, 'heard_ican');
+    }
+
     public function getTenantMailchimpSettings(){
         return $this->hasMany(MailchimpSettings::class, 'tenant_id', 'tenant_id');
     }
@@ -166,7 +173,7 @@ class User extends Authenticatable implements JWTSubject
         $user->surname = $request->surname ?? Auth::user()->surname;
         $user->mobile_no = $request->mobileNo ?? Auth::user()->mobile_no;
         $user->gender = $request->gender ?? Auth::user()->gender;
-        $user->avatar =  $this->updateAvatar($request) ?? 'avatar.jpg';
+        $user->avatar =  $request->hasFile('passportPhoto') ? $this->updateAvatar($request) : 'avatar.jpg';
         $user->marital_status = $request->maritalStatus ?? null;
         $user->birth_date = $request->birthDate ?? null;
         $user->nationality = $request->nationality ?? null;
@@ -292,6 +299,19 @@ class User extends Authenticatable implements JWTSubject
     public function getCountryById($id){
         return Country::find($id);
     }
+
+    public function getQualification($id){
+        return Qualification::find($id);
+    }
+
+    public function getDiscipline($id){
+        return Discipline::find($id);
+    }
+
+    public function getInstitution($id){
+        return Institution::find($id);
+    }
+
 
 
 

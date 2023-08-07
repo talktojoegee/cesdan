@@ -82,7 +82,7 @@ class OnlinePaymentController extends Controller
                             $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);
                             #Send welcome email
                                // \Mail::to($user)->send(new WelcomeNewUserMail($user) );
-                                session()->flash("success", "Your registration was successful. However, you'll have to complete your profile when you do login. <a href='".route('login')."'>Click here</a> to login.");
+                                session()->flash("success", "Your payment was successful, However, you'll have to complete your registration.  <a href='".route('login')."'>Login </a> now with your credentials to complete your registration ");
                             return redirect()->route('login');
                         case 4: //exam registration
                             $courseIds = $tranx->data->metadata->courses;

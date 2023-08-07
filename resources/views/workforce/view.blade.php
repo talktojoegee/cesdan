@@ -27,7 +27,7 @@
         <div class="col-lg-12">
             <div class="card accordion-wizard">
                 <div class="card-header">
-                    <h3 class="card-title">New Professional Student Registration</h3>
+                    <h3 class="card-title">New Membership Registration</h3>
                 </div>
                 <div class="card-body">
                     <p>Take your time to complete your profile.</p>
@@ -195,20 +195,6 @@
                                                     @endforeach
                                                 </select>
                                                 @error('membershipPlan') <i class="text-danger mt-2">{{$message}}</i> @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list-group-item py-4" data-acc-step>
-                                <h5 class="mb-0" data-acc-title><strong>Supporting Documents</strong></h5>
-                                <div data-acc-content class="mt-4">
-                                    <div class="row">
-                                        <div class="col-md-12 col-lg-12">
-                                            <div class="form-group">
-                                                <label>Documents <small>(You can upload multiple documents at once)</small>: <sup class="text-danger">*</sup></label>
-                                                <input type="file" name="supportingDocuments[]" multiple class="form-control-file">
-                                                @error('supportingDocuments') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -603,6 +589,20 @@
                                 </div>
                             </div>
                             <div class="list-group-item py-4" data-acc-step>
+                                <h5 class="mb-0" data-acc-title><strong>Supporting Documents</strong></h5>
+                                <div data-acc-content class="mt-4">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label>Documents <small>(You can upload multiple documents at once)</small>: <sup class="text-danger">*</sup></label>
+                                                <input type="file" name="supportingDocuments[]" multiple class="form-control-file">
+                                                @error('supportingDocuments') <i class="text-danger mt-2">{{$message}}</i> @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item py-4" data-acc-step>
                                 <h5 class="mb-0" data-acc-title><strong>References</strong></h5>
                                 <div data-acc-content class="mt-4">
                                     <div class="row">
@@ -613,14 +613,14 @@
                                             <div class="row">
                                                 <div class="col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label>Referee 1 Name: <sup class="text-danger">*</sup></label>
+                                                        <label>Referee 1 Name: </label>
                                                         <input type="text" name="refereeOneName" placeholder="Referee One Name" value="{{old('refereeOneName')}}" class="form-control">
                                                         @error('refereeOneName') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label>Referee 1 Membership Number: <sup class="text-danger">*</sup></label>
+                                                        <label>Referee 1 Membership Number: </label>
                                                         <input type="text" name="refereeOneMembershipNo" placeholder="Referee One MembershipNo" value="{{old('refereeOneMembershipNo')}}" class="form-control">
                                                         @error('refereeOneMembershipNo') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
@@ -631,14 +631,14 @@
                                             <div class="row">
                                                 <div class="col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label>Referee 1 GSM Number: <sup class="text-danger">*</sup></label>
+                                                        <label>Referee 1 GSM Number: </label>
                                                         <input type="text" name="refereeOneGSM" placeholder="Referee One GSM" value="{{old('refereeOneGSM')}}" class="form-control">
                                                         @error('refereeOneGSM') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label>Sponsoring/Referee District Society: <sup class="text-danger">*</sup></label>
+                                                        <label>Sponsoring/Referee District Society: </label>
                                                         <select name="sponsoringDistrictSociety" id="sponsoringDistrictSociety" class="form-control">
                                                             <option selected disabled>-- Select district society --</option>
                                                             @foreach($districts as $district)
@@ -832,7 +832,7 @@
                                             <td><strong>Contact Country :</strong> {{$user->getCountryById($user->contact_country)->name ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Heard of CIDSAN from :</strong> {{$user->gender == 1 ? 'Male' : 'Female' }}</td>
+                                            <td><strong>Heard of CIDSAN from :</strong> {{$user->getHeardFrom->name ?? ''  }}</td>
                                         </tr>
 
 
@@ -848,20 +848,20 @@
                                             <td><strong>Date of Birth :</strong> {{ date('d M, Y', strtotime($user->birth_date)) ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Marital Status :</strong> </td>
+                                            <td><strong>Marital Status :</strong> {{ $user->getMaritalStatus->name ?? ''  }} </td>
                                         </tr>
 
                                         <tr>
-                                            <td><strong>State of Origin :</strong> {{$user->getStateById($user->contact_state)->state_name ?? '' }}</td>
+                                            <td><strong>State of Origin :</strong> {{$user->getStateById($user->state_origin)->state_name ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Contact Address :</strong> {{$user->middle_name ?? ''}}</td>
+                                            <td><strong>Contact Address :</strong> {{$user->contact_address ?? ''}}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Contact State :</strong> {{$user->mobile_no ?? ''}}</td>
+                                            <td><strong>Contact State :</strong> {{$user->getStateById($user->contact_state)->state_name ?? ''}}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Geo-political Zone :</strong> {{$user->gender == 1 ? 'Male' : 'Female' }}</td>
+                                            <td><strong>Geo-political Zone :</strong> {{$user->getGeoZone->geo_name ?? '' }}</td>
                                         </tr>
 
 
@@ -876,16 +876,16 @@
                                     <table class="table row table-borderless">
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                         <tr>
-                                            <td><strong>Residential Address :</strong> {{$user->first_name ?? '' }}</td>
+                                            <td><strong>Residential Address :</strong> {{$user->residential_address ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Residential State :</strong> {{$user->middle_name ?? ''}}</td>
+                                            <td><strong>Residential State :</strong> {{$user->getStateById($user->residential_state)->state_name ?? ''}}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Office Address :</strong> {{$user->mobile_no ?? ''}}</td>
+                                            <td><strong>Office Address :</strong> {{$user->office_address ?? ''}}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Office State :</strong> {{$user->gender == 1 ? 'Male' : 'Female' }}</td>
+                                            <td><strong>Office State :</strong> {{$user->getStateById($user->office_state)->state_name ?? ''  }}</td>
                                         </tr>
 
 
@@ -893,16 +893,16 @@
                                         </tbody>
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                         <tr>
-                                            <td><strong>Residential City. :</strong> {{$user->surname ?? '' }}</td>
+                                            <td><strong>Residential City. :</strong> {{$user->residential_city ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Residential Telephone :</strong> {{$user->email ?? '' }}</td>
+                                            <td><strong>Residential Telephone :</strong> {{$user->residential_telephone ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Office City :</strong> {{ date('d M, Y', strtotime($user->birth_date)) ?? '' }}</td>
+                                            <td><strong>Office City :</strong> {{ $user->office_city ?? ''  }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Office Telephone :</strong> </td>
+                                            <td><strong>Office Telephone :</strong> {{ $user->office_telephone ?? ''  }}</td>
                                         </tr>
 
 
@@ -920,17 +920,17 @@
                                     <table class="table row table-borderless">
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                             <tr>
-                                                <td><strong>School :</strong> {{$user->first_name ?? '' }}</td>
+                                                <td><strong>School :</strong> {{$user->primary_school ?? '' }}</td>
                                             </tr>
                                             <tr>
-                                                <td><strong>Country :</strong> {{$user->middle_name ?? ''}}</td>
+                                                <td><strong>Country :</strong> {{$user->getCountryById($user->primary_school_country)->name ?? ''}}</td>
                                             </tr>
                                         </tbody>
 
 
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                             <tr>
-                                                <td><strong>Year of Graduation :</strong> {{$user->surname ?? '' }}</td>
+                                                <td><strong>Year of Graduation :</strong> {{$user->primary_graduate_year ?? '' }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -940,17 +940,17 @@
                                     <table class="table row table-borderless">
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                             <tr>
-                                                <td><strong>College :</strong> {{$user->first_name ?? '' }}</td>
+                                                <td><strong>College :</strong> {{$user->college_name ?? '' }}</td>
                                             </tr>
                                             <tr>
-                                                <td><strong>Country :</strong> {{$user->middle_name ?? ''}}</td>
+                                                <td><strong>Country :</strong> {{$user->getCountryById($user->secondary_school_country)->name ?? ''}}</td>
                                             </tr>
                                         </tbody>
 
 
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                             <tr>
-                                                <td><strong>Year of Graduation :</strong> {{$user->surname ?? '' }}</td>
+                                                <td><strong>Year of Graduation :</strong> {{$user->secondary_graduate_year ?? '' }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -960,23 +960,23 @@
                                     <table class="table row table-borderless">
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                         <tr>
-                                            <td><strong>Institution :</strong> {{$user->first_name ?? '' }}</td>
+                                            <td><strong>Institution :</strong> {{$user->getInstitution($user->graduate_institution)->institution_name ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Discipline :</strong> {{$user->middle_name ?? ''}}</td>
+                                            <td><strong>Discipline :</strong> {{$user->getDiscipline($user->graduate_discipline)->discipline_name ?? ''}}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Institution Country :</strong> {{$user->middle_name ?? ''}}</td>
+                                            <td><strong>Institution Country :</strong> {{$user->getCountryById($user->graduate_institution_country)->name ?? ''}}</td>
                                         </tr>
                                         </tbody>
 
 
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                         <tr>
-                                            <td><strong>Qualification :</strong> {{$user->surname ?? '' }}</td>
+                                            <td><strong>Qualification :</strong> {{$user->getQualification($user->graduate_qualification)->qualification_name ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Year of Graduation :</strong> {{$user->surname ?? '' }}</td>
+                                            <td><strong>Year of Graduation :</strong> {{$user->graduate_graduation_year ?? '' }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -987,47 +987,51 @@
                                     <table class="table row table-borderless">
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                         <tr>
-                                            <td><strong>Institution :</strong> {{$user->first_name ?? '' }}</td>
+                                            <td><strong>Institution :</strong> {{$user->getInstitution($user->post_graduate_institution)->institution_name ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Discipline :</strong> {{$user->middle_name ?? ''}}</td>
+                                            <td><strong>Discipline :</strong> {{$user->getDiscipline($user->post_graduate_discipline)->discipline_name ?? ''}}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Institution Country :</strong> {{$user->middle_name ?? ''}}</td>
+                                            <td><strong>Institution Country :</strong> {{$user->getCountryById($user->post_graduate_institution_country)->name ?? ''}}</td>
                                         </tr>
                                         </tbody>
 
 
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                         <tr>
-                                            <td><strong>Qualification :</strong> {{$user->surname ?? '' }}</td>
+                                            <td><strong>Qualification :</strong> {{$user->getQualification($user->post_graduate_qualification)->qualification_name ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Year of Graduation :</strong> {{$user->surname ?? '' }}</td>
+                                            <td><strong>Year of Graduation :</strong> {{$user->post_graduate_year ?? '' }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
 
-                                <h6 class="text-info"><li><strong>Professional Qualification</strong></li></h6>
+                                <h6 class="text-info">
+                                    <li>
+                                        <strong>Professional Qualification</strong>
+                                    </li>
+                                </h6>
                                 <div class="table-responsive ">
                                     <table class="table row table-borderless">
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                         <tr>
-                                            <td><strong>1st Prof. Qualification :</strong> {{$user->first_name ?? '' }}</td>
+                                            <td><strong>1st Prof. Qualification :</strong> {{$user->getQualification($user->professional_qualification)->qualification_name ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>2nd Prof. Qualification :</strong> {{$user->middle_name ?? ''}}</td>
+                                            <td><strong>2nd Prof. Qualification :</strong> {{$user->getQualification($user->second_professional_qualification)->qualification_name ?? ''}}</td>
                                         </tr>
                                         </tbody>
 
 
                                         <tbody class="col-lg-12 col-xl-6 p-0">
                                         <tr>
-                                            <td><strong>Year Qualified :</strong> {{$user->surname ?? '' }}</td>
+                                            <td><strong>Year Qualified :</strong> {{$user->professional_qualification_year ?? '' }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Year Qualified :</strong> {{$user->surname ?? '' }}</td>
+                                            <td><strong>Year Qualified :</strong> {{$user->second_professional_qualification_year ?? '' }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
