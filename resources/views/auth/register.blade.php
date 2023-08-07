@@ -113,10 +113,10 @@
                                 </label>
                                 @error('terms')<div><i class="text-danger">{{$message}}</i></div>@enderror
                                 <div class="wrap-input100 validate-input" data-validate = "Re-type password">
-                                    <label for="">Payment method</label>
+                                    <label for="">Registration Fee ({{ env('APP_CURRENCY') }}{{env('APP_REG_FEE')}})</label>
                                     <select name="payment_method" id="payment_method" class="form-control">
                                         <option disabled selected>-- Select payment method --</option>
-                                        <option value="1">Online payment</option>
+                                        <option value="1">Online payment(Paystack)</option>
                                         <option value="2">Bank Transfer</option>
                                     </select>
                                     @error('payment_method')<div><i class="text-danger">{{$message}}</i></div>@enderror
