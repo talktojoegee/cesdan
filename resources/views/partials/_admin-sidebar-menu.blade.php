@@ -2,7 +2,7 @@
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
     <div class="side-header">
-        <a class="header-brand1" href="{{route('dashboard')}}">
+        <a class="header-brand1" href="#">
             <img src="/assets/images/brand/cidsan-logo.png" class="header-brand-img desktop-logo" alt="logo">
             <img src="/assets/images/brand/cidsan-logo.png" class="header-brand-img toggle-logo" alt="logo">
             <img src="/assets/images/brand/cidsan-logo.png" class="header-brand-img light-logo" alt="logo">
@@ -23,6 +23,8 @@
                 <span class="side-menu__label">Members</span><i class="angle fa fa-angle-right"></i>
             </a>
             <ul class="slide-menu">
+                <li><a href="{{route('new-profiles')}}" class="slide-item"> New Profile</a></li>
+                <li><a href="{{route('new-registrations')}}" class="slide-item"> New Registrations</a></li>
                 <li><a href="{{route('manage-members')}}" class="slide-item"> Manage Members</a></li>
             </ul>
         </li>

@@ -117,7 +117,7 @@
                                     <select name="payment_method" id="payment_method" class="form-control">
                                         <option disabled selected>-- Select payment method --</option>
                                         <option value="1">Online payment(Paystack)</option>
-                                        <option value="2">Bank Transfer</option>
+                                        <option value="2">Offline Payment(Bank)</option>
                                     </select>
                                     @error('payment_method')<div><i class="text-danger">{{$message}}</i></div>@enderror
                                 </div>
@@ -130,7 +130,7 @@
                                 </div>
 
                                 <div class="container-login100-form-btn">
-                                    <button type="submit" class="login100-form-btn btn-primary">
+                                    <button type="submit" id="handleSubmission" class="login100-form-btn btn-primary">
                                         Continue
                                     </button>
                                 </div>
@@ -157,8 +157,10 @@
             let selection = $(this).val();
             if(parseInt(selection) === 2){
                 $('#paymentMethod').show();
+                $('#handleSubmission').text('Submit');
             }else{
                 $('#paymentMethod').hide();
+                $('#handleSubmission').text('Continue');
             }
         });
     });

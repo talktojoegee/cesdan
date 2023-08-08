@@ -74,17 +74,38 @@ class WorkforceController extends Controller
 
     public function userStatusUpdate(Request  $request){
         $this->validate($request,[
-            'status'=>'required',
-            'userId'=>'required'
-        ],[
-            'status.required'=>'Choose status to update',
-            'userId.required'=>''
+            'accountStatus'=>'required'
         ]);
+        if($request->account_status > 0){
+            $this->validate($request,[
+                'status'=>'required',
+                'userId'=>'required',
+                'membershipPlan'=>'required',
+            ],[
+                'status.required'=>'Choose status to update',
+                'userId.required'=>'',
+                'membershipPlan.required'=>'Choose membership plan',
+            ]);
+        }else{
+            $this->validate($request,[
+                'status'=>'required',
+                'userId'=>'required',
+            ],[
+                'status.required'=>'Choose status to update',
+                'userId.required'=>'',
+            ]);
+        }
+
         $user = $this->user->getUserById($request->userId);
         if(!empty($user)){
             $user->account_status = $request->status;
+            $user->membership_plan_id = $request->membershipPlan ?? null;
+            if($request->status == 1){
+                $user->approved_by = Auth::user()->id;
+                $user->date_approved = now();
+            }
             $user->save();
-            session()->flash('success', "Success! Account status updated!");
+            session()->flash('success', "Action successful");
             return back();
         }else{
             session()->flash('error', "Whoops! Something went wrong. Try again later.");
@@ -298,9 +319,28 @@ class WorkforceController extends Controller
 
     public function getAdminUsers(){
         return view('workforce.admin.index',[
-            'users'=>$this->user->getAllAdminUsers(),
+            'users'=>$this->user->getAllUsersByType(1),
         ]);
     }
 
 
+
+
+    public function showNewProfiles(){
+        if(Auth::user()->user_type != 1){
+            abort(404);
+        }
+        return view('workforce.admin.new-profiles',[
+            'users'=>$this->user->getAllUsersByAccountStatus(0),
+        ]);
+    }
+
+    public function showNewRegistrations(){
+        if(Auth::user()->user_type != 1){
+            abort(404);
+        }
+        return view('workforce.admin.new-registrations',[
+            'users'=>$this->user->getAllUsersByAccountStatus(1),
+        ]);
+    }
 }

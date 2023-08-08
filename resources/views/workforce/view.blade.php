@@ -14,11 +14,12 @@
 
 @endsection
 @section('breadcrumb-action-btn')
-    <a href="{{route('view-profile', Auth::user()->slug)}}" class="btn btn-primary btn-icon text-white">
+    <a href="{{url()->previous()}}" class="btn btn-primary btn-icon text-white">
         <span>
-            <i class="fe fe-user"></i>
-        </span> View Profile
+            <i class="fe fe-skip-back"></i>
+        </span> Go Back
     </a>
+
 @endsection
 
 @section('main-content')
@@ -98,8 +99,8 @@
                                                 <label>Gender: <sup class="text-danger">*</sup></label>
                                                 <select name="gender" id="gender" class="form-control">
                                                     <option selected disabled>-- Select Gender --</option>
-                                                    <option value="1">Male</option>
-                                                    <option value="2">Female</option>
+                                                    <option value="0">Male</option>
+                                                    <option value="1">Female</option>
                                                 </select>
                                                 @error('gender') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                             </div>
@@ -669,7 +670,7 @@
                         <div class="wideget-user-desc">
                             <div class="d-flex justify-content-between">
                                 @if($user->account_status == 1)
-                                    <label for="" class="badge badge-info ">Active</label>
+                                    <label for="" class="badge badge-info ">Pending Approval </label>
                                 @elseif($user->account_status == 0)
                                     <label for="" class="badge badge-secondary "> <i class="fe fe-clock"></i> Incomplete</label>
                                 @elseif($user->account_status == 2)
@@ -681,9 +682,7 @@
                                 @endif
 
                                 @if(Auth::user()->user_type == 1)
-
-                                <label data-toggle="modal" data-target="#status-update" style="cursor: pointer;" for="" class="badge badge-info ">Update Status <i class="fe fe-edit"></i> </label>
-
+                                    <label data-toggle="modal" data-target="#status-update" style="cursor: pointer;" for="" class="badge badge-info ">Update Status <i class="fe fe-edit"></i> </label>
                                 @endif
                             </div>
                             <div class="wideget-user-img">
@@ -691,7 +690,7 @@
                             </div>
                             <div class="user-wrap">
                                 <h4 class="mb-1">{{$user->first_name ?? '' }} {{$user->surname ?? '' }}</h4>
-                                <h6 class="text-muted mb-4"><span class="badge text-white rounded-pill bg-success me-1 mb-1 mt-1">{{ $user->getMembership->name ?? ''  }}</span> </h6>
+                                <h6 class="text-muted mb-4"><b class="badge text-white rounded-pill bg-danger me-1 mb-1 mt-1">{{ $user->getMembership->name ?? ''  }}</b> </h6>
                             </div>
                             <span> <i class="fe fa-pencil text-warning"></i> </span>
                         </div>
@@ -759,6 +758,31 @@
                     </div>
                 </div>
             </div>
+        @if(Auth::user()->user_type == 1 && $user->account_status > 0)
+            <div class="card">
+                <div class="card-body">
+                    <div class="media-heading">
+                        <h5 style="border-bottom: 2px solid #3E4999; padding-bottom: 10px;"><strong class="text-info">Administrative Action</strong> </h5>
+                    </div>
+                    <div class="table-responsive ">
+                        <table class="table row table-borderless">
+                            <tbody class="col-lg-12 col-xl-12 p-0">
+                            <tr>
+                                <td><strong>Approved by :</strong> {{$user->getApprovedBy->first_name ?? '' }} {{$user->getApprovedBy->surname ?? '' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Date Approved :</strong> {{ !is_null($user->date_approved)  ? date('d M, Y', strtotime($user->date_approved)) : '-'}}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Payment Method :</strong> {{ $user->payment_method == 1 ? 'Online Payment' : 'Offline Payment(Bank)' }}</td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
         <div class="col-lg-8">
             <div class="card">
@@ -816,7 +840,7 @@
                                             <td><strong>Mobile No. :</strong> {{$user->mobile_no ?? ''}}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Gender :</strong> {{$user->gender == 1 ? 'Male' : 'Female' }}</td>
+                                            <td><strong>Gender :</strong> {{$user->gender == 1 ? 'Female' : 'Male' }}</td>
                                         </tr>
 
                                         <tr>
@@ -824,12 +848,6 @@
                                         </tr>
                                         <tr>
                                             <td><strong>LGA :</strong> {{$user->getLocalGovernment->local_name ?? ''}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Contact City :</strong> {{$user->contact_city ?? ''}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Contact Country :</strong> {{$user->getCountryById($user->contact_country)->name ?? '' }}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Heard of CIDSAN from :</strong> {{$user->getHeardFrom->name ?? ''  }}</td>
@@ -853,12 +871,6 @@
 
                                         <tr>
                                             <td><strong>State of Origin :</strong> {{$user->getStateById($user->state_origin)->state_name ?? '' }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Contact Address :</strong> {{$user->contact_address ?? ''}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Contact State :</strong> {{$user->getStateById($user->contact_state)->state_name ?? ''}}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>Geo-political Zone :</strong> {{$user->getGeoZone->geo_name ?? '' }}</td>
@@ -1308,7 +1320,22 @@
                                     </select>
                                 </div>
                             </div>
+                            @if($user->account_status > 0)
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Membership Plan: <sup class="text-danger">*</sup></label>
+                                    <select name="membershipPlan" id="membershipPlan" class="form-control">
+                                        <option selected disabled>-- Select plan --</option>
+                                        @foreach($plans as $p)
+                                            <option value="{{ $p->id }}" {{ $user->membership_plan_id == $p->id ? 'selected' : ''  }}>{{$p->name ?? '' }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('membershipPlan') <i class="text-danger mt-2">{{$message}}</i> @enderror
+                                </div>
+                            </div>
+                            @endif
                             <input type="hidden" name="userId" value="{{ $user->id }}">
+                            <input type="hidden" name="accountStatus" value="{{ $user->account_status }}">
                         </div>
                     </div>
                     <div class="modal-footer">

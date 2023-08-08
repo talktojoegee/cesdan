@@ -101,10 +101,11 @@
                                 <th class="">#</th>
                                 <th class="wd-15p">First name</th>
                                 <th class="wd-15p">Last name</th>
-                                <th class="wd-20p">Status</th>
-                                <th class="wd-20p">Category</th>
                                 <th class="wd-15p">Phone No.</th>
                                 <th class="wd-25p">E-mail</th>
+                                <th class="wd-20p">Status</th>
+                                <th class="wd-20p">Category</th>
+                                <th class="wd-20p">Payment Method</th>
                                 <th class="wd-25p">Action</th>
                             </tr>
                             </thead>
@@ -115,24 +116,25 @@
                                     <td>{{$serial++}}</td>
                                     <td>{{$user->first_name ?? '' }}</td>
                                     <td>{{$user->surname ?? '' }}</td>
+                                    <td>{{$user->mobile_no ?? '' }}</td>
+                                    <td>{{$user->email ?? '' }}</td>
                                     <td>
                                         @if($user->account_status == 1)
-                                            <label for="" class="badge badge-info ">Active</label>
+                                            <label for="" class="text-info ">Pending Approval </label>
                                         @elseif($user->account_status == 0)
-                                            <label for="" class="badge badge-secondary "> <i class="fe fe-clock"></i> Incomplete</label>
+                                            <label for="" class="text-secondary "> Incomplete</label>
                                         @elseif($user->account_status == 2)
-                                            <label for="" class="badge badge-warning "> <i class="fe fe-loader"></i> Pending</label>
+                                            <label for="" class="text-warning ">  Pending</label>
                                         @elseif($user->account_status == 3)
-                                            <label for="" class="badge badge-primary "> <i class="fe fe-clock"></i> Paid</label>
+                                            <label for="" class="text-primary ">  Paid</label>
                                         @elseif($user->account_status == 4)
-                                            <label for="" class="badge badge-secondary "> <i class="fe fe-check"></i> Verified</label>
+                                            <label for="" class="text-secondary "> Verified</label>
                                         @endif
                                     </td>
                                     <td>
                                         {{ $user->getMembership->name ?? ''  }}
                                     </td>
-                                    <td>{{$user->mobile_no ?? '' }}</td>
-                                    <td>{{$user->email ?? '' }}</td>
+                                    <td>{{ $user->payment_method == 1 ? 'Online Payment' : 'Offline Payment(Bank)' }}</td>
                                     <td><a href="{{route('view-profile', ['account'=>$account, 'slug'=>$user->slug])}}" class="btn btn-info btn-sm"><i class="ti-eye mr-2"></i></a></td>
                                 </tr>
                             @endforeach

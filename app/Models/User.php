@@ -91,6 +91,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(State::class, 'contact_state');
     }
 
+    public function getApprovedBy(){
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
    public function getContactCountry(){
         return $this->belongsTo(Country::class, 'contact_country');
     }
@@ -183,6 +187,7 @@ class User extends Authenticatable implements JWTSubject
         $user->state_origin = $request->stateOfOrigin ?? null;
         $user->lga = $request->localGovtArea ?? null;
         $user->membership_plan_id = $request->membershipPlan ?? null;
+        $user->middle_name = $request->middleName ?? null;
         //$user->contact_address = $request->contactAddress ?? null;
         //$user->contact_city = $request->contactCity ?? null;
         //$user->contact_state = $request->contactState ?? null;
@@ -274,9 +279,13 @@ class User extends Authenticatable implements JWTSubject
     public function getAllUsers(){
         return User::orderBy('id', 'DESC')->get();
     }
-    public function getAllAdminUsers(){
-        return User::where('user_type',1)->orderBy('id', 'DESC')->get();
+    public function getAllUsersByType($userType){
+        return User::where('user_type',$userType)->orderBy('id', 'DESC')->get();
     }
+
+      public function getAllUsersByAccountStatus($status){
+            return User::where('account_status',$status)->orderBy('id', 'DESC')->get();
+        }
 
     public function getUserBySlug($slug){
         return User::where('slug', $slug)->where('tenant_id', Auth::user()->tenant_id)->first();

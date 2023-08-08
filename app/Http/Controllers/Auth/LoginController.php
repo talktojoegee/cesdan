@@ -67,6 +67,9 @@ class LoginController extends Controller
                     session()->flash("error", "We're still reviewing your account.");
                     return redirect()->route('login');
                 }
+                if($user->user_type == 1){
+                    return redirect()->route('dashboard');
+                }
                 return redirect()->route('view-profile', $user->slug);
             }else{
                 session()->flash("error", " Wrong or invalid login credentials. Try again.");

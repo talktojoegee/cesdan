@@ -2,7 +2,7 @@
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
     <div class="side-header">
-        <a class="header-brand1" href="{{route('dashboard', ['account'=>$account])}}">
+        <a class="header-brand1" href="#">
             <img src="/assets/images/brand/cidsan-logo.png" class="header-brand-img desktop-logo" alt="logo">
             <img src="/assets/images/brand/cidsan-logo.png" class="header-brand-img toggle-logo" alt="logo">
             <img src="/assets/images/brand/cidsan-logo.png" class="header-brand-img light-logo" alt="logo">
