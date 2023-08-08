@@ -288,7 +288,7 @@ class User extends Authenticatable implements JWTSubject
         }
 
     public function getUserBySlug($slug){
-        return User::where('slug', $slug)->where('tenant_id', Auth::user()->tenant_id)->first();
+        return User::where('slug', $slug)->first();
     }
 
     public function getUserBySlugnTenantId($slug,$tenant_id){

@@ -661,7 +661,7 @@
             </div>
         </div>
     </div>
-    @elseif(Auth::user()->account_status == 1)
+    @elseif(Auth::user()->account_status > 0)
         <div class="row">
         <div class="col-lg-4">
             <div class="card">
@@ -1239,31 +1239,6 @@
             </div>
         </div><!-- COL-END -->
     </div>
-    @elseif(Auth::user()->account_status == 2)
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card accordion-wizard">
-                    <div class="card-header">
-                        <h3 class="card-title">Payment</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Proceed to make payment</p>
-                        @if(session()->has('success'))
-                            <div class="alert alert-success mb-4">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                <strong>Great!</strong>
-                                <hr class="message-inner-separator">
-                                <p>{!! session()->get('success') !!}</p>
-                            </div>
-                        @endif
-                        <form id="form" action="{{ route('update-profile') }}" method="post">
-                            @csrf
-                            payment modalities
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
     @endif
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
