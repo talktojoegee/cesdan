@@ -33,7 +33,7 @@
             <div class="col col-login mx-auto">
                 <div class="text-center">
                     <a href="">
-                        <img src="/assets/images/brand/main.png" class="header-brand-img" alt="logo">
+                        <img src="/assets/images/brand/cidsan-logo.png" class="header-brand-img" alt="logo">
                     </a>
                 </div>
             </div>
