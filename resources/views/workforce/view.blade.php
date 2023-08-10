@@ -132,7 +132,9 @@
                                                 <label>Nationality: <sup class="text-danger">*</sup></label>
                                                 <select name="nationality" id="nationality" class="form-control">
                                                     <option selected disabled>-- Select country --</option>
-                                                    <option value="156">Nigeria</option>
+                                                    @foreach($countries as $country)
+                                                     <option value="{{ $country->id }}">{{ ucfirst(strtolower($country->name)) ?? '' }}</option>
+                                                    @endforeach
 
                                                 </select>
                                                 @error('nationality') <i class="text-danger mt-2">{{$message}}</i> @enderror
@@ -174,13 +176,13 @@
                                         </div>
                                         <div class="col-md-4 col-lg-4">
                                             <div class="form-group">
-                                                <label>Heard of CIDSAN from: <sup class="text-danger">*</sup></label>
+                                                <label>How did you hear about us?: <sup class="text-danger">*</sup></label>
                                                 <select name="heardIcan" id="heardIcan" class="form-control">
                                                     <option selected disabled>-- Select option --</option>
                                                     <option value="1">Catch Them Young Programme</option>
                                                     <option value="2">NYSC Camp</option>
                                                     <option value="3">District Society</option>
-                                                    <option value="4">Tutition House</option>
+                                                    <option value="4">Tuition House</option>
                                                     <option value="5">Others</option>
                                                 </select>
                                                 @error('heardIcan') <i class="text-danger mt-2">{{$message}}</i> @enderror
