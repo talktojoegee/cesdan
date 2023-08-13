@@ -68,6 +68,21 @@ class WorkforceController extends Controller
         }
     }
 
+    public function viewMemberProfile(Request $request){
+        $user = $this->user->getUserBySlug($request->slug);
+        if(!empty($user)){
+            return view('workforce.admin.view-profile',[
+                'user'=>$user,
+                'plans'=>SubscriptionPlan::getSubscriptionPlan(),
+                'documents'=>UserSupportingDocument::getSupportingDocumentsByUserId($user->id)
+
+            ]);
+        }else{
+            session()->flash("error", "No record found");
+            return back();
+        }
+    }
+
     public function showNewTeamMemberForm(){
         return view('workforce.add-new-team-member');
     }

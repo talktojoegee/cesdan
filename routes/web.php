@@ -172,6 +172,7 @@ Route::group(['prefix'=>'app'],function(){
         Route::get('/admin-users',[App\Http\Controllers\WorkforceController::class, 'getAdminUsers'])->name('manage-admin-users');
         Route::post('/user-status-update',[App\Http\Controllers\WorkforceController::class, 'userStatusUpdate'])->name('user-status-update');
         Route::get('/{slug}',[App\Http\Controllers\WorkforceController::class, 'viewProfile'])->name('view-profile');
+        Route::get('/member/{slug}',[App\Http\Controllers\WorkforceController::class, 'viewMemberProfile'])->name('view-member-profile');
         Route::get('/new-member',[App\Http\Controllers\WorkforceController::class, 'showNewTeamMemberForm'])->name('add-new-team-member');
         Route::post('/new-member',[App\Http\Controllers\WorkforceController::class, 'saveNewTeamMember']);
         Route::post('/update-profile',[App\Http\Controllers\WorkforceController::class, 'updateProfile'])->name('update-profile');

@@ -1,9 +1,9 @@
 @extends('layouts.master-layout')
 @section('active-page')
-    Team Members
+    Manage Members
 @endsection
 @section('title')
-    Team Members
+    Manage Members
 @endsection
 @section('extra-styles')
 
@@ -29,7 +29,7 @@
                     <div class="row mb-1">
                         <div class="col">
                             <p class="mb-1">Members</p>
-                            <h3 class="mb-0 number-font">{{number_format($users->count())}}</h3>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type',0)->count())}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-secondary1">
@@ -47,7 +47,7 @@
                     <div class="row mb-1">
                         <div class="col">
                             <p class="mb-1">Members</p>
-                            <h3 class="mb-0 number-font">{{number_format($users->where('account_status',0)->count())}}</h3>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type',0)->where('account_status',0)->count())}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-orange">
@@ -65,7 +65,7 @@
                     <div class="row mb-1">
                         <div class="col">
                             <p class="mb-1">Members</p>
-                            <h3 class="mb-0 number-font">{{number_format($users->where('account_status',4)->count())}}</h3>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type',0)->where('account_status',4)->count())}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-secondary">
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                     </div>
-                    <span class="fs-12 text-muted">  <span class="text-muted fs-12 ml-0 mt-1">Verified</span></span>
+                    <span class="fs-12 text-muted">  <span class="text-muted fs-12 ml-0 mt-1">Active</span></span>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
                     <div class="row mb-1">
                         <div class="col">
                             <p class="mb-1">Members</p>
-                            <h3 class="mb-0 number-font">{{number_format($users->where('account_status',5)->count())}}</h3>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type',0)->where('account_status',5)->count())}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-warning">
@@ -118,22 +118,20 @@
                                 </thead>
                                 <tbody>
                                 @php $serial = 1; @endphp
-                                @foreach($users as $user)
+                                @foreach($users->where('user_type',0) as $user)
                                     <tr>
                                         <td>{{$serial++}}</td>
                                         <td>{{$user->first_name ?? '' }}</td>
                                         <td>{{$user->surname ?? '' }}</td>
                                         <td>
                                             @if($user->account_status == 1)
-                                                <label for="" class="badge badge-info ">Active</label>
+                                                <label for="" class="text-info ">Payment not verified </label>
                                             @elseif($user->account_status == 0)
-                                                <label for="" class="badge badge-secondary "> <i class="fe fe-clock"></i> Incomplete</label>
+                                                <label for="" class="text-secondary "> Incomplete</label>
                                             @elseif($user->account_status == 2)
-                                                <label for="" class="badge badge-warning "> <i class="fe fe-loader"></i> Pending</label>
+                                                <label for="" class="text-warning ">  Pending approval</label>
                                             @elseif($user->account_status == 3)
-                                                <label for="" class="badge badge-primary "> <i class="fe fe-clock"></i> Paid</label>
-                                            @elseif($user->account_status == 4)
-                                                <label for="" class="badge badge-secondary "> <i class="fe fe-check"></i> Verified</label>
+                                                <label for="" class="text-primary ">  Active</label>
                                             @endif
                                         </td>
                                         <td>
@@ -141,7 +139,7 @@
                                         </td>
                                         <td>{{$user->mobile_no ?? '' }}</td>
                                         <td>{{$user->email ?? '' }}</td>
-                                        <td><a href="{{route('view-profile', ['account'=>$account, 'slug'=>$user->slug])}}" class="btn btn-info btn-sm"><i class="ti-eye mr-2"></i></a></td>
+                                        <td><a href="{{route('view-member-profile', ['account'=>$account, 'slug'=>$user->slug])}}" class="btn btn-info btn-sm"><i class="ti-eye mr-2"></i></a></td>
                                     </tr>
                                 @endforeach
                                 </tbody>

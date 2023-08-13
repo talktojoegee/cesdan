@@ -111,7 +111,17 @@ class RegisterController extends Controller
                 abort(404);
             }
         }else{
-            return view('auth.continue',['request'=>$request]);
+            $amount = 25000;
+            $amountCharge = number_format(($amount * 100)/98.5,2, ".","");
+            $charge = $amountCharge - $amount;
+            if($amount >= 2500){
+                $charge = ($charge + 1.5)+100;
+            }
+            $charge = $charge + 0.03;
+            if($charge > 2000){
+                $charge = 2000;
+            }
+            return view('auth.continue',['request'=>$request, 'charge'=>$charge]);
         }
 
 

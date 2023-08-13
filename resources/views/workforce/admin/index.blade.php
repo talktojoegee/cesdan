@@ -118,22 +118,20 @@
                                 </thead>
                                 <tbody>
                                 @php $serial = 1; @endphp
-                                @foreach($users as $user)
+                                @foreach($users->where('user_type',0) as $user)
                                     <tr>
                                         <td>{{$serial++}}</td>
                                         <td>{{$user->first_name ?? '' }}</td>
                                         <td>{{$user->surname ?? '' }}</td>
                                         <td>
                                             @if($user->account_status == 1)
-                                                <label for="" class="badge badge-info ">Active</label>
+                                                <label for="" class="text-info ">Payment not verified </label>
                                             @elseif($user->account_status == 0)
-                                                <label for="" class="badge badge-secondary "> <i class="fe fe-clock"></i> Incomplete</label>
+                                                <label for="" class="text-secondary "> Incomplete</label>
                                             @elseif($user->account_status == 2)
-                                                <label for="" class="badge badge-warning "> <i class="fe fe-loader"></i> Pending</label>
+                                                <label for="" class="text-warning ">  Pending approval</label>
                                             @elseif($user->account_status == 3)
-                                                <label for="" class="badge badge-primary "> <i class="fe fe-clock"></i> Paid</label>
-                                            @elseif($user->account_status == 4)
-                                                <label for="" class="badge badge-secondary "> <i class="fe fe-check"></i> Verified</label>
+                                                <label for="" class="text-primary ">  Active</label>
                                             @endif
                                         </td>
                                         <td>
@@ -141,7 +139,7 @@
                                         </td>
                                         <td>{{$user->mobile_no ?? '' }}</td>
                                         <td>{{$user->email ?? '' }}</td>
-                                        <td><a href="{{route('view-profile', ['account'=>$account, 'slug'=>$user->slug])}}" class="btn btn-info btn-sm"><i class="ti-eye mr-2"></i></a></td>
+                                        <td><a href="{{route('view-member-profile', ['slug'=>$user->slug])}}" class="btn btn-info btn-sm"><i class="ti-eye mr-2"></i></a></td>
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -93,13 +93,19 @@
                                 </svg>
                             </span>
                         </div>
+                        <div class="wrap-input100 validate-input" data-validate = "Enter a valid email address">
+                            <div class="form-group">
+                                <label for="">Transaction Charge</label>
+                                <input class="input100" type="text" name="charge" readonly value="{{env('APP_CURRENCY')}}{{ $charge ?? 0  }}">
+                            </div>
+                        </div>
                         @error('email')<div><i class="text-danger">{{$message}}</i></div>@enderror
                         <div class="wrap-input100 validate-input" data-validate = "Password is required">
                             <input class="input100" readonly type="password" value="{{$request->password ?? '' }}" name="password" placeholder="Choose Password">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-										<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><g fill="none"><path d="M0 0h24v24H0V0z"/><path d="M0 0h24v24H0V0z" opacity=".87"/></g><path d="M6 20h12V10H6v10zm6-7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z" opacity=".3"/><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
-									</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><g fill="none"><path d="M0 0h24v24H0V0z"/><path d="M0 0h24v24H0V0z" opacity=".87"/></g><path d="M6 20h12V10H6v10zm6-7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z" opacity=".3"/><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
+                            </span>
                         </div>
                         <div class="container-login100-form-btn">
                             <button type="submit" class="login100-form-btn btn-primary">
