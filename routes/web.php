@@ -168,6 +168,8 @@ Route::group(['prefix'=>'app'],function(){
     Route::prefix('/account')->group(function(){
         Route::get('/members',[App\Http\Controllers\WorkforceController::class, 'manageWorkforce'])->name('manage-members');
         Route::get('/new-profiles',[App\Http\Controllers\WorkforceController::class, 'showNewProfiles'])->name('new-profiles');
+        Route::post('/delete-profile',[App\Http\Controllers\WorkforceController::class, 'deleteProfile'])->name('delete-profile');
+        Route::post('/verify-payment',[App\Http\Controllers\WorkforceController::class, 'verifyPayment'])->name('verify-payment');
         Route::get('/new-registrations',[App\Http\Controllers\WorkforceController::class, 'showNewRegistrations'])->name('new-registrations');
         Route::get('/admin-users',[App\Http\Controllers\WorkforceController::class, 'getAdminUsers'])->name('manage-admin-users');
         Route::post('/user-status-update',[App\Http\Controllers\WorkforceController::class, 'userStatusUpdate'])->name('user-status-update');

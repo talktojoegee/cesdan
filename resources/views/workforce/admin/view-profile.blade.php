@@ -626,7 +626,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('delete-file', ['account'=>$account])}}" method="post">
+                <form action="{{route('delete-profile')}}" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
@@ -658,7 +658,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('user-status-update')}}" method="post">
+                <form action="{{route('verify-payment')}}" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
@@ -682,6 +682,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="status-update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

@@ -101,8 +101,15 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-body">
-                        <div class="table-responsive">
+                    @if(session()->has('success'))
+                        <div class="alert alert-success mb-4">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <strong>Great!</strong>
+                            <hr class="message-inner-separator">
+                            <p>{!! session()->get('success') !!}</p>
+                        </div>
+                    @endif
+                   <div class="table-responsive">
                             <table id="data-table1" class="table table-striped table-bordered text-nowrap w-100">
                                 <thead>
                                 <tr>
@@ -145,7 +152,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>

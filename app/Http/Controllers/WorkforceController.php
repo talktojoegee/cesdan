@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PaymentVerificationMail;
 use App\Mail\ProfileUpdateMail;
 use App\Models\Country;
 use App\Models\Discipline;
@@ -295,6 +296,46 @@ class WorkforceController extends Controller
         }
         session()->flash("success", "Your changes were saved successfully");
         return back();
+    }
+
+
+    public function deleteProfile(Request $request){
+        $this->validate($request,[
+            'userId'=>'required'
+        ],[
+            'userId.required'=>''
+        ]);
+        $user = $this->user->getUserById($request->userId);
+        if(!empty($user)){
+            $user->delete();
+            session()->flash("Action successful.");
+            return redirect()->route('manage-members');
+        }
+        abort(404);
+    }
+
+    public function verifyPayment(Request $request){
+        $this->validate($request,[
+            'userId'=>'required'
+        ],[
+            'userId.required'=>''
+        ]);
+        $user = $this->user->getUserById($request->userId);
+        try {
+            if(!empty($user)){
+                $user->payment_method_verification = 1;
+                $user->approved_by = Auth::user()->id ?? null;
+                $user->date_approved = now();
+                $user->save();
+
+            }
+            \Mail::to($user)->send(new PaymentVerificationMail($user) );
+            session()->flash("success", "Action successful.");
+            return redirect()->route('manage-members');
+        }catch (\Exception $exception){
+            abort(404);
+        }
+
     }
 
     public function changeAvatar(Request $request){

@@ -81,7 +81,7 @@ class OnlinePaymentController extends Controller
                             $body = $tranx->data->metadata->surname." just registered on ".env("APP_NAME");
                             $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);
                             #Send welcome email
-                               // \Mail::to($user)->send(new WelcomeNewUserMail($user) );
+                                \Mail::to($user)->send(new WelcomeNewUserMail($user) );
                                 session()->flash("success", "Your payment was successful, However, you'll have to complete your registration.  <a href='".route('login')."'>Login </a> now with your credentials to complete your registration ");
                             return redirect()->route('login');
                         case 4: //exam registration
