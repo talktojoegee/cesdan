@@ -36,8 +36,8 @@
         @endif
         <a data-toggle="modal" data-target="#status-update" href="#" class="btn btn-info btn-icon text-white">
             <span>
-                <i class="fe fe-user-plus"></i>
-            </span> Update Status
+                <i class="fe fe-check-circle"></i>
+            </span> Approve Membership
         </a>
     </div>
 
@@ -687,7 +687,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-warning" id="exampleModalLabel"> Status Update</h5>
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">  Membership Approval</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -698,12 +698,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="">Status</label>
-                                    <select name="status" id="" class="form-control">
-                                        <option {{ $user->account_status == 1 ? 'selected' : '' }} value="1">Payment not verified</option>
-                                        <option {{ $user->account_status == 2 ? 'selected' : '' }} value="2">Pending approval</option>
-                                        <option {{ $user->account_status == 3 ? 'selected' : '' }} value="3">Active</option>
-                                    </select>
+                                    <input type="hidden" name="status" value="3">
                                 </div>
                             </div>
                             @if($user->account_status > 0)
@@ -727,7 +722,7 @@
                     <div class="modal-footer">
                         <div class="btn-group">
                             <button data-dismiss="modal" type="button" class="btn btn-danger btn-mini"><i class="ti-close mr-2"></i>Cancel</button>
-                            <button type="submit" class="btn btn-primary btn-mini"><i class="ti-check mr-2"></i>Save changes</button>
+                            <button type="submit" class="btn btn-primary btn-mini"><i class="ti-check mr-2"></i>Approve</button>
                         </div>
                     </div>
                 </form>

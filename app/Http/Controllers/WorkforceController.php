@@ -327,13 +327,13 @@ class WorkforceController extends Controller
                 $user->approved_by = Auth::user()->id ?? null;
                 $user->date_approved = now();
                 $user->save();
-
+                \Mail::to($user)->send(new PaymentVerificationMail($user) );
             }
-            \Mail::to($user)->send(new PaymentVerificationMail($user) );
             session()->flash("success", "Action successful.");
             return redirect()->route('manage-members');
         }catch (\Exception $exception){
-            abort(404);
+            session()->flash("error", "Whoops! Something went wrong.");
+            return back();
         }
 
     }

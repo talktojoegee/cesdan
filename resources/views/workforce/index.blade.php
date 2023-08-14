@@ -125,7 +125,7 @@
                                 </thead>
                                 <tbody>
                                 @php $serial = 1; @endphp
-                                @foreach($users->where('user_type',0) as $user)
+                                @foreach($users->where('user_type',0)->where('account_status',3) as $user)
                                     <tr>
                                         <td>{{$serial++}}</td>
                                         <td>{{$user->first_name ?? '' }}</td>
