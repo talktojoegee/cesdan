@@ -387,7 +387,7 @@ class WorkforceController extends Controller
             abort(404);
         }
         return view('workforce.admin.new-profiles',[
-            'users'=>$this->user->getAllUsersByAccountStatus(0),
+            'users'=>$this->user->getAllUsersByAccountStatus(1),
         ]);
     }
 
@@ -396,7 +396,7 @@ class WorkforceController extends Controller
             abort(404);
         }
         return view('workforce.admin.new-registrations',[
-            'users'=>$this->user->getAllUsersByAccountStatus(1),
+            'users'=>$this->user->getAllUsersByAccountStatus(2),
         ]);
     }
 }
