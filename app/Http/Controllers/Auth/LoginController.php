@@ -64,7 +64,7 @@ class LoginController extends Controller
 
             if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password], $request->remember)){
                 if(($user->payment_method_verification == 0) && ($user->payment_method == 2)){
-                    session()->flash("error", "We're still reviewing your account.");
+                    session()->flash("error", "We are yet to verify your payment; you will be contacted shortly.");
                     return redirect()->route('login');
                 }
                 if($user->user_type == 1){
@@ -135,8 +135,6 @@ class LoginController extends Controller
                 ]);
                 return redirect()->to($tranx->data->authorization_url)->send();
             }catch (Paystack\Exception\ApiException $exception){
-                //print_r($exception->getResponseObject());
-                //die($exception->getMessage());
                 session()->flash("error", "Whoops! Something went wrong. Try again.");
                 return back();
             }
