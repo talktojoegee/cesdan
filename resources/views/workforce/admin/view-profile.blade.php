@@ -21,7 +21,7 @@
         </span> Go Back
         </a>
         @if($user->account_status == 0)
-            @if($user->payment_method_verification == 0)
+            @if($user->payment_method_verification == 1)
                 <a data-toggle="modal" data-target="#verifyPaymentModal" href="#" class="btn btn-warning btn-icon text-white">
                     <span>
                         <i class="fe fe-check-circle"></i>
