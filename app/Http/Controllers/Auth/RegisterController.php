@@ -105,7 +105,7 @@ class RegisterController extends Controller
              User::handlePaidRegistration($request->surname, $request->password, $request->email, $request->mobileNo, $request->registrationNo, 0, 2,0);
             try{
                 //\Mail::to($user)->send(new WelcomeNewUserMail($user) );
-                session()->flash("success", "Your payment was successful, However, you'll have to complete your registration.  <a href='".route('login')."'>Login </a> now with your credentials to complete your registration ");
+                session()->flash("success", "We are yet to verify your payment; you will be contacted shortly.");
                 return redirect()->route('login');
             }catch (\Exception $exception){
                 abort(404);
