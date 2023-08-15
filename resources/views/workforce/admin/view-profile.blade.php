@@ -20,7 +20,7 @@
             <i class="fe fe-skip-back"></i>
         </span> Go Back
         </a>
-        @if($user->account_status == 0)
+        @if($user->account_status == 1)
             @if($user->payment_method_verification == 0)
                 <a data-toggle="modal" data-target="#verifyPaymentModal" href="#" class="btn btn-warning btn-icon text-white">
                     <span>
