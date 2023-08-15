@@ -332,7 +332,7 @@ class WorkforceController extends Controller
             session()->flash("success", "Action successful.");
             return redirect()->route('manage-members');
         }catch (\Exception $exception){
-            session()->flash("error", "Whoops! Something went wrong.");
+            session()->flash("error", "Whoops! We had issues sending an email at this point. Though the payment was verified");
             return back();
         }
 
