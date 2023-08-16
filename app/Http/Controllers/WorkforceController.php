@@ -397,7 +397,7 @@ class WorkforceController extends Controller
             abort(404);
         }
         return view('workforce.admin.new-registrations',[
-            'users'=>$this->user->getAllUsersByAccountStatus(2),
+            'users'=>$this->user->getAllUsersByAccountStatus([2]),
         ]);
     }
 }
