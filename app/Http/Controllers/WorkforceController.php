@@ -326,7 +326,7 @@ class WorkforceController extends Controller
                 $user->approved_by = Auth::user()->id ?? null;
                 $user->account_status = 0; //Incomplete
                 $user->date_approved = now();
-                $user->save();
+                $user->save(); //changes
                 \Mail::to($user)->send(new PaymentVerificationMail($user) );
             }
             session()->flash("success", "Action successful.");
