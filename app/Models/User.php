@@ -284,7 +284,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
       public function getAllUsersByAccountStatus($status){
-            return User::where('account_status',$status)->orderBy('id', 'DESC')->get();
+            return User::whereIn('account_status',$status)->orderBy('id', 'DESC')->get();
         }
 
     public function getUserBySlug($slug){

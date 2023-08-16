@@ -388,7 +388,7 @@ class WorkforceController extends Controller
             abort(404);
         }
         return view('workforce.admin.new-profiles',[
-            'users'=>$this->user->getAllUsersByAccountStatus(1),
+            'users'=>$this->user->getAllUsersByAccountStatus([0,1]),
         ]);
     }
 
