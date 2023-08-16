@@ -17,7 +17,7 @@
                     <div class="row mb-1">
                         <div class="col">
                             <p class="mb-1">Members</p>
-                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type', 0)->count() )}}</h3>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type', 0)->where('account_status',3)->count() )}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-secondary1">
@@ -111,7 +111,7 @@
                             </thead>
                             <tbody>
                             @php $serial = 1; @endphp
-                            @foreach($users->where('user_type', 0)->take(10) as $user)
+                            @foreach($users->where('user_type', 0)->where('account_status',3)->take(10) as $user)
                                 <tr>
                                     <td>{{$serial++}}</td>
                                     <td>{{$user->first_name ?? '' }}</td>
