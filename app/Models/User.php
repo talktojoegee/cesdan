@@ -234,7 +234,7 @@ class User extends Authenticatable implements JWTSubject
         $user->referee_membership_no = $request->refereeOneMembershipNo ?? null;
         $user->referee_mobile_no = $request->refereeOneGSM ?? null;
         $user->sponsoring_district = $request->sponsoringDistrictSociety ?? null;
-        $user->account_status = 2;
+        $user->account_status = 2; //pending approval
         $user->save();
         return $user;
     }

@@ -324,7 +324,7 @@ class WorkforceController extends Controller
             if(!empty($user)){
                 $user->payment_method_verification = 1;
                 $user->approved_by = Auth::user()->id ?? null;
-                $user->account_status = 2; //pending approval
+                $user->account_status = 0; //Incomplete
                 $user->date_approved = now();
                 $user->save();
                 \Mail::to($user)->send(new PaymentVerificationMail($user) );
