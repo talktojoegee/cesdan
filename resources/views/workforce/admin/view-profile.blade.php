@@ -34,11 +34,13 @@
             </span> Delete Profile
         </a>
         @endif
+        @if($user->account_status == 2)
         <a data-toggle="modal" data-target="#status-update" href="#" class="btn btn-info btn-icon text-white">
             <span>
                 <i class="fe fe-check-circle"></i>
             </span> Approve Membership
         </a>
+        @endif
     </div>
 
 
