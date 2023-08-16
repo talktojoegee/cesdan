@@ -126,7 +126,7 @@
                                     <p><strong>Bank Name:</strong> Zenith Bank</p>
                                     <p><strong>Account Name:</strong> Chartered Institute of Development Studies and Administration of Nigeria</p>
                                     <p><strong>Account Number:</strong> 1228772496</p>
-                                    <p>Proof of Payment should be sent to info@cidsan.org for profile activation</p>
+                                    <p>Proof of Payment should be sent to <a href="mailto:info@cidsan.org">info@cidsan.org</a> for profile activation</p>
                                 </div>
 
                                 <div class="container-login100-form-btn">

@@ -90,7 +90,7 @@ class WorkforceController extends Controller
 
     public function userStatusUpdate(Request  $request){
         $this->validate($request,[
-            'accountStatus'=>'required'
+            'account_status'=>'required'
         ]);
         if($request->account_status > 0){
             $this->validate($request,[
@@ -111,12 +111,11 @@ class WorkforceController extends Controller
                 'userId.required'=>'',
             ]);
         }
-
         $user = $this->user->getUserById($request->userId);
         if(!empty($user)){
             $user->account_status = $request->status;
             $user->membership_plan_id = $request->membershipPlan ?? null;
-            if($request->status == 1){
+            if($request->status == 3){ //approved || verified
                 $user->approved_by = Auth::user()->id;
                 $user->date_approved = now();
             }
@@ -325,13 +324,14 @@ class WorkforceController extends Controller
             if(!empty($user)){
                 $user->payment_method_verification = 1;
                 $user->approved_by = Auth::user()->id ?? null;
-                $user->account_status = 3; //payment verified || active
+                $user->account_status = 2; //pending approval
                 $user->date_approved = now();
                 $user->save();
                 \Mail::to($user)->send(new PaymentVerificationMail($user) );
             }
             session()->flash("success", "Action successful.");
-            return redirect()->route('manage-members');
+            return redirect()->back();
+           // return redirect()->route('manage-members');
         }catch (\Exception $exception){
             session()->flash("error", "Whoops! We had issues sending an email at this point. Though the payment was verified");
             return back();

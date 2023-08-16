@@ -102,9 +102,9 @@ class RegisterController extends Controller
             'payment_method.required'=>'Choose payment method',
         ]);
         if($request->payment_method == 2){
-             User::handlePaidRegistration($request->surname, $request->password, $request->email, $request->mobileNo, $request->registrationNo, 0, 2,0);
+            $user =  User::handlePaidRegistration($request->surname, $request->password, $request->email, $request->mobileNo, $request->registrationNo, 0, 2,0);
             try{
-                //\Mail::to($user)->send(new WelcomeNewUserMail($user) );
+                \Mail::to($user)->send(new WelcomeNewUserMail($user) );
                 session()->flash("success", "We are yet to verify your payment; you will be contacted shortly.");
                 return redirect()->route('login');
             }catch (\Exception $exception){
