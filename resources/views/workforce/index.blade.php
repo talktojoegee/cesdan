@@ -29,7 +29,7 @@
                     <div class="row mb-1">
                         <div class="col">
                             <p class="mb-1">Members</p>
-                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type',0)->count())}}</h3>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type',0)->where('account_status',3)->count())}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-secondary1">
@@ -47,7 +47,7 @@
                     <div class="row mb-1">
                         <div class="col">
                             <p class="mb-1">Members</p>
-                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type',0)->where('account_status',0)->count())}}</h3>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type',0)->where('account_status',1)->count())}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-orange">
@@ -65,7 +65,7 @@
                     <div class="row mb-1">
                         <div class="col">
                             <p class="mb-1">Members</p>
-                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type',0)->where('account_status',4)->count())}}</h3>
+                            <h3 class="mb-0 number-font">{{number_format($users->where('user_type',0)->where('account_status',3)->count())}}</h3>
                         </div>
                         <div class="col-auto mb-0">
                             <div class="dash-icon text-secondary">
@@ -114,8 +114,8 @@
                                 <thead>
                                 <tr>
                                     <th class="">#</th>
-                                    <th class="wd-15p">First name</th>
                                     <th class="wd-15p">Last name</th>
+                                    <th class="wd-15p">First name</th>
                                     <th class="wd-20p">Status</th>
                                     <th class="wd-20p">Category</th>
                                     <th class="wd-15p">Phone No.</th>
@@ -128,8 +128,8 @@
                                 @foreach($users->where('user_type',0)->where('account_status',3) as $user)
                                     <tr>
                                         <td>{{$serial++}}</td>
-                                        <td>{{$user->first_name ?? '' }}</td>
                                         <td>{{$user->surname ?? '' }}</td>
+                                        <td>{{$user->first_name ?? '' }}</td>
                                         <td>
                                             @if($user->account_status == 1)
                                                 <label for="" class="text-info ">Payment not verified </label>
