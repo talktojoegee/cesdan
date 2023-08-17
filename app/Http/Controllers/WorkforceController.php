@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MessageUser;
 use App\Mail\PaymentVerificationMail;
 use App\Mail\ProfileUpdateMail;
 use App\Models\Country;
@@ -120,8 +121,17 @@ class WorkforceController extends Controller
                 $user->date_approved = now();
             }
             $user->save();
-            session()->flash('success', "Action successful");
-            return back();
+            try {
+                $subject = "Membership Approval";
+                $message = "Membership approved!";
+                \Mail::to($user)->send(new PaymentVerificationMail($user, $subject, $message) );
+                session()->flash('success', "Action successful");
+                return back();
+            }catch (\Exception $exception){
+                session()->flash('error', "Whoops! Something went wrong. We couldn't email member.");
+                return back();
+            }
+
         }else{
             session()->flash('error', "Whoops! Something went wrong. Try again later.");
             return back();
@@ -288,12 +298,36 @@ class WorkforceController extends Controller
         #Send welcome email
         try{
             \Mail::to($user)->send(new ProfileUpdateMail($user) );
+            session()->flash("success", "Your changes were saved successfully");
+            return back();
 
         }catch (\Exception $ex){
             session()->flash("error", "We had trouble sending you a mail. Though your account was updated.");
             return back();
         }
-        session()->flash("success", "Your changes were saved successfully");
+    }
+
+    public function sendMoreSupportingDocuments(Request $request){
+        $this->validate($request,[
+            'supportingDocuments'=>'required'
+        ]);
+        if ($request->hasFile('supportingDocuments')) {
+            foreach($request->supportingDocuments as $attachment){
+                $extension = $attachment->getClientOriginalExtension();
+                $size = $attachment->getSize();
+                $name = $attachment->getClientOriginalName();
+                $filename = uniqid() . '_' . time() . '_' . date('Ymd') . '.' . $extension;
+                $dir = 'assets/drive/';
+                $attachment->move(public_path($dir), $filename);
+                $file = new UserSupportingDocument();
+                $file->user_id = Auth::user()->id;
+                $file->attachment = $filename;
+                $file->size = $size ?? 'N/A';
+                $file->name = $name ?? 'N/A';
+                $file->save();
+            }
+        }
+        session()->flash("success", "Your documents were submitted!");
         return back();
     }
 
@@ -327,7 +361,9 @@ class WorkforceController extends Controller
                 $user->account_status = 0; //Incomplete
                 $user->date_approved = now();
                 $user->save(); //changes
-                \Mail::to($user)->send(new PaymentVerificationMail($user) );
+                $subject = "Payment verification";
+                $message = "Payment verified!";
+                \Mail::to($user)->send(new PaymentVerificationMail($user, $subject, $message) );
             }
             session()->flash("success", "Action successful.");
             return redirect()->back();
@@ -399,5 +435,29 @@ class WorkforceController extends Controller
         return view('workforce.admin.new-registrations',[
             'users'=>$this->user->getAllUsersByAccountStatus([2]),
         ]);
+    }
+
+
+    public function sendMessage(Request $request){
+        $this->validate($request,[
+            'message'=>'required',
+            'userId'=>'required',
+            'subject'=>'required',
+        ],[
+            'message.required'=>'Compose message to send',
+            'userId.required'=>'',
+            'subject.required'=>'Enter subject for your message',
+        ]);
+        try {
+            $user = $this->user->getUserById($request->userId);
+            if(!empty($user)){
+                \Mail::to($user)->send(new MessageUser($user, $request->subject, $request->message) );
+                session()->flash("success", "Email sent!");
+            }
+            return back();
+        }catch (\Exception $exception){
+            session()->flash("error", "Whoops! Something went wrong");
+            return back();
+        }
     }
 }

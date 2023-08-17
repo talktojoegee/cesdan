@@ -35,6 +35,11 @@
         </a>
         @endif
         @if($user->account_status == 2)
+        <a data-toggle="modal" data-target="#request-more-info" href="#" class="btn btn-secondary btn-icon text-white">
+        <span>
+            <i class="fe fe-mail"></i>
+        </span> Request More Info
+        </a>
         <a data-toggle="modal" data-target="#status-update" href="#" class="btn btn-info btn-icon text-white">
             <span>
                 <i class="fe fe-check-circle"></i>
@@ -725,6 +730,47 @@
                         <div class="btn-group">
                             <button data-dismiss="modal" type="button" class="btn btn-danger btn-mini"><i class="ti-close mr-2"></i>Cancel</button>
                             <button type="submit" class="btn btn-primary btn-mini"><i class="ti-check mr-2"></i>Approve</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="request-more-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">  Request for More Info</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('send-message')}}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Subject</label>
+                                    <input type="text" name="subject" placeholder="Subject" value="{{ old('subject') }}" class="form-control">
+                                    @error('subject') <i class="text-danger">{{$message}}</i> @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Compose Email</label>
+                                    <textarea name="message" class="form-control" placeholder="Type message here...">{{ old('message') }}</textarea>
+                                    @error('message') <i class="text-danger">{{$message}}</i> @enderror
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="userId" value="{{ $user->id }}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button data-dismiss="modal" type="button" class="btn btn-danger btn-mini"><i class="ti-close mr-2"></i>Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-mini"><i class="ti-check mr-2"></i>Send</button>
                         </div>
                     </div>
                 </form>

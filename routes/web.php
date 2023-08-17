@@ -178,6 +178,8 @@ Route::group(['prefix'=>'app'],function(){
         Route::get('/new-member',[App\Http\Controllers\WorkforceController::class, 'showNewTeamMemberForm'])->name('add-new-team-member');
         Route::post('/new-member',[App\Http\Controllers\WorkforceController::class, 'saveNewTeamMember']);
         Route::post('/update-profile',[App\Http\Controllers\WorkforceController::class, 'updateProfile'])->name('update-profile');
+        Route::post('/more-supporting-documents',[App\Http\Controllers\WorkforceController::class, 'sendMoreSupportingDocuments'])->name('more-supporting-documents');
+        Route::post('/send-message',[App\Http\Controllers\WorkforceController::class, 'sendMessage'])->name('send-message');
         Route::post('/change-password',[App\Http\Controllers\WorkforceController::class, 'changePassword'])->name('change-password');
         Route::post('/change-avatar',[App\Http\Controllers\WorkforceController::class, 'changeAvatar'])->name('change-avatar');
     });

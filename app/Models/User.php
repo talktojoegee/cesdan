@@ -150,7 +150,7 @@ class User extends Authenticatable implements JWTSubject
         $user->payment_method = $method ?? 0;
         $user->payment_method_verification = $verify ?? 0;
         $user->tenant_id = 1;
-        $user->account_status = $method == 1 ? 0 : 1;
+        $user->account_status = $method == 1 ? 0 : 1; // 1=Online payment 2 = Offline
         $user->active_sub_key = $registrationNo ?? null; //active_sub_key holds the registration number
         $user->slug = Str::slug($surname).'-'.substr(sha1(time()),32,40);
         $user->save();
@@ -223,7 +223,7 @@ class User extends Authenticatable implements JWTSubject
         $user->second_professional_qualification = $request->secondProfessionalQualification ?? null;
         $user->second_professional_qualification_year = $request->secondProfessionalQualificationYear ?? null;
         //$user->examination_no = $request->examinationNumber ?? null;
-        //$user->examination_year = $request->examinationYear ?? null;
+        $user->profile_updated = 1; //profile updated
         $user->company_name = $request->companyName ?? null;
         $user->department = $request->department ?? null;
         $user->position = $request->position ?? null;

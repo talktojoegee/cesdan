@@ -27,7 +27,7 @@
 @endsection
 
 @section('main-content')
-    @if(Auth::user()->account_status != 3)
+    @if(Auth::user()->profile_updated == 0)
         <div class="row">
             <div class="col-lg-12">
                 <div class="card accordion-wizard">
@@ -43,6 +43,18 @@
                                 <strong>Great!</strong>
                                 <hr class="message-inner-separator">
                                 <p>{!! session()->get('success') !!}</p>
+                            </div>
+                        @endif
+                        @if($errors->any())
+                            <div class="alert alert-warning mb-4">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <strong>Great!</strong>
+                                <hr class="message-inner-separator">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         @endif
                         <form id="form" action="{{ route('update-profile') }}" method="post" enctype="multipart/form-data">
@@ -667,7 +679,7 @@
                 </div>
             </div>
         </div>
-    @elseif(Auth::user()->account_status == 3)
+    @elseif(Auth::user()->profile_updated == 1)
         <div class="row">
             <div class="col-lg-4">
                 <div class="card">
@@ -1060,6 +1072,24 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
+                                    <div class="col-md-12 col-lg-12">
+                                        <h5 style="border-bottom: 2px solid #3E4999; padding-bottom: 10px;" class="mb-5"><strong class="text-info">Submit More Supporting Documents</strong> </h5>
+                                        <form action="{{route('more-supporting-documents')}}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="form-group">
+                                                <input type="file" name="supportingDocuments[]" multiple class="form-control-file">
+                                                @error('supportingDocuments') <i class="text-danger">{{$message}}</i>@enderror
+                                            </div>
+                                            <div class="form-group d-flex justify-content-center">
+                                                <button class="btn btn-primary">Upload Documents</button>
+                                            </div>
+                                        </form>
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 mb-5">
+                                        <h5 style="border-bottom: 2px solid #3E4999; padding-bottom: 10px;"><strong class="text-info">Documents Submitted</strong> </h5>
+                                    </div>
+
                                     @foreach ($documents as $file)
                                         @switch(pathinfo($file->attachment, PATHINFO_EXTENSION))
                                             @case('pptx')

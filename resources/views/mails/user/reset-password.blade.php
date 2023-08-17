@@ -104,12 +104,6 @@
 </head>
 <body style="background-color: #e9ecef;">
 
-<!-- start preheader -->
-<div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
-    A preheader is the short summary text that follows the subject line when an email is viewed in the inbox.
-</div>
-<!-- end preheader -->
-
 <!-- start body -->
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
 
@@ -125,7 +119,7 @@
                 <tr>
                     <td align="center" valign="top" style="padding: 36px 24px;">
                         <a href="{{route('home')}}" target="_blank" style="display: inline-block;">
-                            <img src="/vendors/img/logo.png" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
+                            <img src="/assets/images/brand/cidsan-logo.png" alt="Logo" border="0" width="48" style="display: block; width: 48px; max-width: 48px; min-width: 48px;">
                         </a>
                     </td>
                 </tr>

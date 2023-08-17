@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PaymentVerificationMail extends Mailable
+class MessageUser extends Mailable
 {
     use Queueable, SerializesModels;
     public $user, $message, $subject;
@@ -17,7 +17,7 @@ class PaymentVerificationMail extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user,$subject, $message)
+    public function __construct(User $user, $subject, $message)
     {
         $this->user = $user;
         $this->message = $message;
@@ -32,7 +32,8 @@ class PaymentVerificationMail extends Mailable
     public function build()
     {
         return $this->from('no-reply@cesdan.com')
-            ->subject($this->subject." ".config('app.name'))
-            ->markdown('mails.user.payment-verification-mail');
+            ->subject($this->subject." - ".config('app.name'))
+            ->markdown('mails.user.message-user');
+
     }
 }
