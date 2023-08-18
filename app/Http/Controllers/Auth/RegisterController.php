@@ -111,7 +111,7 @@ class RegisterController extends Controller
                 abort(404);
             }
         }else{
-            $amount = 25000;
+            $amount = env('APP_REG_FEE');
             $amountCharge = number_format(($amount * 100)/98.5,2, ".","");
             $charge = $amountCharge - $amount;
             if($amount >= 2500){
