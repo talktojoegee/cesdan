@@ -147,7 +147,7 @@ class RegisterController extends Controller
         ]);
             try{
                 $paystack = new Paystack(env('PAYSTACK_SECRET_KEY'));
-                $amount = 25000; //$request->amount;
+                $amount = env('APP_REG_FEE'); //$request->amount;
 
                 $amountCharge = number_format(($amount * 100)/98.5,2, ".",""); //Amount plus charge
                 $charge = $amountCharge - $amount;
