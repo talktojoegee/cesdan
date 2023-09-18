@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="CISDAN portal">
-    <meta name="author" content="CISDAN">
-    <meta name="keywords" content="CISDAN">
+    <meta name="description" content="CIDSAN portal">
+    <meta name="author" content="CIDSAN">
+    <meta name="keywords" content="CIDSAN">
     <link rel="shortcut icon" type="image/x-icon" href="http://akmaltechnology.com/template/yoha/assets/images/brand/favicon.ico" />
     <title>{{config('app.name')}} –  Login</title>
     <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
