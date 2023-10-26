@@ -187,7 +187,7 @@ class User extends Authenticatable implements JWTSubject
         $user->nationality = $request->nationality ?? null;
         $user->state_origin = $request->stateOfOrigin ?? null;
         $user->lga = $request->localGovtArea ?? null;
-        $user->membership_plan_id = $request->membershipPlan ?? null;
+        //$user->membership_plan_id = $request->membershipPlan ?? null;
         $user->middle_name = $request->middleName ?? null;
         //$user->contact_address = $request->contactAddress ?? null;
         //$user->contact_city = $request->contactCity ?? null;

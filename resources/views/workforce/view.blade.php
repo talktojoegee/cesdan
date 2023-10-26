@@ -204,7 +204,7 @@
                                                     @error('heardIcan') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-lg-4">
+                                            <div class="col-md-4 col-lg-4" style="display: none;git ">
                                                 <div class="form-group">
                                                     <label>Membership Plan: <sup class="text-danger">*</sup></label>
                                                     <select name="membershipPlan" id="membershipPlan" class="form-control">
