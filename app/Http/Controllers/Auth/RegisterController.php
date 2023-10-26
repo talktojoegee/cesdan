@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeNewUserMail;
 use App\Models\AdminNotification;
+use App\Models\SubscriptionPlan;
 use App\Models\Tenant;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -65,6 +66,12 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function showRegistrationForm()
+    {
+        $categories = SubscriptionPlan::all();
+        return view('auth.register',['category'=>$categories]);
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -89,6 +96,7 @@ class RegisterController extends Controller
             'terms'=>'required',
             'mobileNo'=>'required',
             'payment_method'=>'required',
+            'membershipCategory'=>'required',
         ],[
             'registrationNo.required'=>'Registration Number is required',
             'surname.required'=>'Enter your surname in the field provided',
@@ -100,9 +108,11 @@ class RegisterController extends Controller
             'terms.required'=>'Accept our terms & conditions to continue with this registration',
             'mobileNo.required'=>'Enter a functional mobile phone number',
             'payment_method.required'=>'Choose payment method',
+            'membershipCategory.required'=>'Choose membership',
         ]);
         if($request->payment_method == 2){
-            $user =  User::handlePaidRegistration($request->surname, $request->password, $request->email, $request->mobileNo, $request->registrationNo, 0, 2,0);
+            $user =  User::handlePaidRegistration($request->surname, $request->password, $request->email, $request->mobileNo,
+                $request->registrationNo, 0, 2,0, $request->membershipCategory);
             try{
                 \Mail::to($user)->send(new WelcomeNewUserMail($user) );
                 session()->flash("success", "We are yet to verify your payment; you will be contacted shortly.");
@@ -132,7 +142,7 @@ class RegisterController extends Controller
             'surname'=>'required',
             'email'=>'required|email|unique:users,email',
             'password'=>'required',
-            //'terms'=>'required',
+            'membershipCategory'=>'required',
             'mobileNo'=>'required',
         ],[
             'registrationNo.required'=>'Registration Number is required',
@@ -142,7 +152,7 @@ class RegisterController extends Controller
             'email.unique'=>'Whoops! Another account exists with this email',
             'password.required'=>'Choose a password',
             //'password.confirmed'=>'Your chosen password does not match re-type password',
-            //'terms.required'=>'Accept our terms & conditions to continue with this registration',
+            'membershipCategory.required'=>'Choose membership',
             'mobileNo.required'=>'Enter a functional mobile phone number',
         ]);
             try{
@@ -166,6 +176,7 @@ class RegisterController extends Controller
                 $builder->withMobile($request->mobileNo);
                 $builder->withEmail($request->email);
                 $builder->withTransaction(3);
+                $builder->withMembership($request->membershipCategory);
                 $metadata = $builder->build();
                 $tranx = $paystack->transaction->initialize([
                     'amount'=>($amount+$charge)*100,       // in kobo

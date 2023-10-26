@@ -62,7 +62,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            {{ $user->getMembership->name ?? ''  }}
+                                            {{ $user->getMembership->name ?? ''  }}({{env('APP_CURRENCY')}}{{$user->getMembership->naira_amount ?? 0 }})
                                         </td>
                                         <td>{{ $user->payment_method == 1 ? 'Online Payment' : 'Offline Payment(Bank)' }}</td>
                                         <td><a href="{{route('view-member-profile', ['slug'=>$user->slug])}}" class="btn btn-info btn-sm"><i class="ti-eye mr-2"></i></a></td>

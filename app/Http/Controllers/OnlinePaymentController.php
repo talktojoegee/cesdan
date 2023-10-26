@@ -71,12 +71,13 @@ class OnlinePaymentController extends Controller
                     switch ($transaction_type){
                         case 3:
                             $registrationNo = $tranx->data->metadata->registration;
+                            $membership = $tranx->data->metadata->membership;
                             $surname = $tranx->data->metadata->surname;
                             $password = $tranx->data->metadata->password;
                             $mobileNo = $tranx->data->metadata->mobile;
                             $email = $tranx->data->metadata->email;
                             $amount = $tranx->data->amount;
-                            $user = User::handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo, $amount, 1, 1);
+                            $user = User::handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo, $amount, 1, 1, $membership);
                             $subject = "New registration";
                             $body = $tranx->data->metadata->surname." just registered on ".env("APP_NAME");
                             $this->adminnotification->setNewAdminNotification($subject, $body, 'view-user-profile', $user->slug, 1, 0);

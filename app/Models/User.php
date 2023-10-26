@@ -137,7 +137,7 @@ class User extends Authenticatable implements JWTSubject
         return $user;
     }
 
-    public static function handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo, $amount, $method, $verify){
+    public static function handlePaidRegistration($surname, $password, $email, $mobileNo, $registrationNo, $amount, $method, $verify, $membership){
         $user = new User();
         $user->first_name = null;
         $user->surname = $surname ?? '' ;
@@ -150,6 +150,7 @@ class User extends Authenticatable implements JWTSubject
         $user->payment_method = $method ?? 0;
         $user->payment_method_verification = $verify ?? 0;
         $user->tenant_id = 1;
+        $user->membership_plan_id = $membership;
         $user->account_status = $method == 1 ? 0 : 1; // 1=Online payment 2 = Offline
         $user->active_sub_key = $registrationNo ?? null; //active_sub_key holds the registration number
         $user->slug = Str::slug($surname).'-'.substr(sha1(time()),32,40);
