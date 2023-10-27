@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('send:mail')
-            ->everyMinute()
+            ->everyFiveMinutes()
             ->withoutOverlapping()
             ->runInBackground();
     }
