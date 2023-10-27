@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeNewUserMail;
 use App\Models\AdminNotification;
+use App\Models\EmailLog;
 use App\Models\SubscriptionPlan;
 use App\Models\Tenant;
 use App\Providers\RouteServiceProvider;
@@ -114,7 +115,8 @@ class RegisterController extends Controller
             $user =  User::handlePaidRegistration($request->surname, $request->password, $request->email, $request->mobileNo,
                 $request->registrationNo, 0, 2,0, $request->membershipCategory);
             try{
-                \Mail::to($user)->send(new WelcomeNewUserMail($user) );
+                EmailLog::logEmail($user->id, 1, null, null);
+                //\Mail::to($user)->send(new WelcomeNewUserMail($user) );
                 session()->flash("success", "We are yet to verify your payment; you will be contacted shortly.");
                 return redirect()->route('login');
             }catch (\Exception $exception){

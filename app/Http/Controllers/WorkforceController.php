@@ -7,6 +7,7 @@ use App\Mail\PaymentVerificationMail;
 use App\Mail\ProfileUpdateMail;
 use App\Models\Country;
 use App\Models\Discipline;
+use App\Models\EmailLog;
 use App\Models\GeopoliticalZone;
 use App\Models\Institution;
 use App\Models\LocalGovernment;
@@ -124,7 +125,8 @@ class WorkforceController extends Controller
             try {
                 $subject = "Membership Approval";
                 $message = "Membership approved!";
-                \Mail::to($user)->send(new PaymentVerificationMail($user, $subject, $message) );
+                EmailLog::logEmail($user->id, 3, $subject, $message);
+                //\Mail::to($user)->send(new PaymentVerificationMail($user, $subject, $message) );
                 session()->flash('success', "Action successful");
                 return back();
             }catch (\Exception $exception){
@@ -297,7 +299,8 @@ class WorkforceController extends Controller
         }
         #Send welcome email
         try{
-            \Mail::to($user)->send(new ProfileUpdateMail($user) );
+            //\Mail::to($user)->send(new ProfileUpdateMail($user) );
+            EmailLog::logEmail($user->id, 2, null, null);
             session()->flash("success", "Your changes were saved successfully");
             return back();
 
@@ -363,7 +366,8 @@ class WorkforceController extends Controller
                 $user->save(); //changes
                 $subject = "Payment verification";
                 $message = "Payment verified!";
-                \Mail::to($user)->send(new PaymentVerificationMail($user, $subject, $message) );
+                EmailLog::logEmail($user->id, 3, $subject, $message);
+                //\Mail::to($user)->send(new PaymentVerificationMail($user, $subject, $message) );
             }
             session()->flash("success", "Action successful.");
             return redirect()->back();
