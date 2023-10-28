@@ -20,6 +20,11 @@
             <i class="fe fe-skip-back"></i>
         </span> Go Back
         </a>
+        <button type="button" class="btn btn-secondary btn-icon text-white" onclick="generatePDF()"><i class="si si-printer"></i>
+            <span>
+                <i class="fe fe-printer"></i>
+            </span> Print Profile
+        </button>
     </div>
 
 
@@ -680,7 +685,7 @@
             </div>
         </div>
     @elseif(Auth::user()->profile_updated == 1)
-        <div class="row">
+        <div class="row" id="printArea">
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
@@ -803,11 +808,11 @@
                             <div class="tabs-menu1">
                                 <ul class="nav">
                                     <li class=""><a href="#tab-51" class="active show" data-toggle="tab">Profile</a></li>
-                                    <li><a href="#tab-62" data-toggle="tab" class="">Supporting Documents</a></li>
+                                    <li id="supportingDocuments"><a href="#tab-62" data-toggle="tab" class="">Supporting Documents</a></li>
 
                                     @if(Auth::user()->id == $user->id)
-                                        <li><a href="#tab-61" data-toggle="tab" class="">Profile Picture</a></li>
-                                        <li><a href="#tab-81" data-toggle="tab" class="">Change Password</a></li>
+                                        <li id="profilePicture"><a href="#tab-61" data-toggle="tab" class="">Profile Picture</a></li>
+                                        <li id="changePassword"><a href="#tab-81" data-toggle="tab" class="">Change Password</a></li>
                                     @endif
                                 </ul>
                             </div>
@@ -1363,6 +1368,7 @@
     <script src="/vendor/select2/js/select2.full.min.js" type="text/javascript"></script>
     <script src="/js/select2-init.js" type="text/javascript"></script>
     <script src="/js/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.8.0/html2pdf.bundle.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $('#stateOfOrigin').on('change', function(e){
@@ -1374,5 +1380,29 @@
                     });
             });
         });
+    </script>
+    <script>
+        function generatePDF(){
+            let same = "{{ $user->id == Auth::user()->id  }}";
+            let element = document.getElementById('printArea');
+            document.getElementById('supportingDocuments').style.display = 'none';
+            if(same) {
+                document.getElementById('profilePicture').style.display = 'none';
+                document.getElementById('changePassword').style.display = 'none';
+            }
+            html2pdf(element,{
+                margin:       10,
+                filename:     "Profile_{{$user->first_name ?? '' }} {{$user->surname ?? '' }}"+".pdf",
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, logging: true, dpi: 192, letterRendering: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            });
+
+            document.getElementById('supportingDocuments').style.display = 'block';
+            if(same) {
+                document.getElementById('profilePicture').style.display = 'block';
+                document.getElementById('changePassword').style.display = 'block';
+            }
+        }
     </script>
 @endsection

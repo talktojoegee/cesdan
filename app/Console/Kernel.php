@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('send:mail')
             ->everyFiveMinutes()
             ->withoutOverlapping()
-            ->runInBackground();
+            ->runInBackground(); //admin@cidsan.com
     }
 
     /**
