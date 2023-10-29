@@ -616,10 +616,11 @@
                                     <h5 class="mb-0" data-acc-title><strong>Supporting Documents</strong></h5>
                                     <div data-acc-content class="mt-4">
                                         <div class="row">
-                                            <div class="col-md-12 col-lg-12">
-                                                <div class="form-group">
+                                            <div class="col-md-12 col-lg-12 ">
+                                                <div class="form-group files">
                                                     <label>Documents <small>(You can upload multiple documents at once)</small>: <sup class="text-danger">*</sup></label>
-                                                    <input type="file" name="supportingDocuments[]" multiple class="form-control-file">
+                                                    <input type="file" id="multiple" name="supportingDocuments[]" multiple class="form-control-file">
+                                                      <ul class="fileList"></ul>
                                                     @error('supportingDocuments') <i class="text-danger mt-2">{{$message}}</i> @enderror
                                                 </div>
                                             </div>
@@ -1380,6 +1381,72 @@
                     });
             });
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $.fn.fileUploader = function (filesToUpload, sectionIdentifier) {
+            let fileIdCounter = 0;
+            this.closest(".files").change(function (evt) {
+                let output = [];
+
+                for (let i = 0; i < evt.target.files.length; i++) {
+                    fileIdCounter++;
+                    let file = evt.target.files[i];
+                    let fileId = sectionIdentifier + fileIdCounter;
+
+                    filesToUpload.push({
+                        id: fileId,
+                        file: file
+                    });
+                    let removeLink = "<a class=\"removeFile\" href=\"#\" data-fileid=\"" + fileId + "\">Remove</a>";
+                    output.push("<li><strong>", escape(file.name), "</strong> - ", file.size, " bytes. &nbsp; &nbsp; ", removeLink, "</li> ");
+                };
+                $(this).children(".fileList")
+                    .append(output.join(""));
+                evt.target.value = null;
+            });
+
+            $(document).on("click", ".removeFile", function (e) {
+                e.preventDefault();
+                //let fileName = $(this).parent().children("strong").text();
+                let fileId = $(this).parent().children("a").data("fileid");
+                for (let i = 0; i < filesToUpload.length; ++i) {
+                    if (filesToUpload[i].id === fileId)
+                        filesToUpload.splice(i, 1);
+                }
+                $(this).parent().remove();
+            });
+
+            this.clear = function () {
+                for (let i = 0; i < filesToUpload.length; ++i) {
+                    if (filesToUpload[i].id.indexOf(sectionIdentifier) >= 0)
+                        filesToUpload.splice(i, 1);
+                }
+                $(this).children(".fileList").empty();
+            }
+
+            return this;
+        };
+
+        (function () {
+            let filesToUpload = [];
+            let files1Uploader = $("#multiple").fileUploader(filesToUpload, "multiple");
+        })()
+
+
+
+
+
     </script>
     <script>
         function generatePDF(){
