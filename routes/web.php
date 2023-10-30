@@ -302,7 +302,7 @@ Route::prefix('/tunnel')->group(function(){
 });
 
 Auth::routes();
-Route::post('/continue', [App\Http\Controllers\Auth\RegisterController::class, 'continue'])->name('continue');
+Route::get('/continue', [App\Http\Controllers\Auth\RegisterController::class, 'continue'])->name('continue');
 Route::get('logout', [App\Http\Controllers\Auth\LoginController::class,'logout']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/shared/survey/{slug}', [App\Http\Controllers\OnlinePaymentController::class, 'sharedSurvey'])->name('shared-survey');

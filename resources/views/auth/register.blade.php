@@ -44,7 +44,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="wrap-login100 p-6">
-                            <form class="login100-form validate-form" action="{{route('continue')}}" method="post" autocomplete="off">
+                            <form class="login100-form validate-form" action="{{route('continue')}}" method="get" autocomplete="off">
                                 @csrf
                                 <span class="login100-form-title">
 									Create An Account
@@ -117,13 +117,13 @@
                                     <select name="membershipCategory" id="membershipCategory" class="form-control">
                                         <option disabled selected>-- Select category --</option>
                                         @foreach($category as $cat)
-                                            <option value="{{$cat->id ?? 1 }}">{{$cat->name ?? '' }}</option>
+                                            <option value="{{$cat->id ?? 1 }}">{{$cat->name ?? '' }} - {{ env('APP_CURRENCY') }}{{number_format($cat->naira_amount,2)}}</option>
                                         @endforeach
                                     </select>
                                     @error('membershipCategory')<div><i class="text-danger">{{$message}}</i></div>@enderror
                                 </div>
                                 <div class="wrap-input100 validate-input" data-validate = "Re-type password">
-                                    <label for="">Registration Fee ({{ env('APP_CURRENCY') }}{{env('APP_REG_FEE')}})</label>
+                                    <label for="">Payment Method</label>
                                     <select name="payment_method" id="payment_method" class="form-control">
                                         <option disabled selected>-- Select payment method --</option>
                                         <option value="1">Online payment(Paystack)</option>

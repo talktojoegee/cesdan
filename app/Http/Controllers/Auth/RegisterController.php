@@ -123,7 +123,9 @@ class RegisterController extends Controller
                 abort(404);
             }
         }else{
-            $amount = env('APP_REG_FEE');
+            $category = SubscriptionPlan::find($request->membershipCategory);
+
+            $amount = !empty($category) ? $category->naira_amount : 0;// env('APP_REG_FEE');
             $amountCharge = number_format(($amount * 100)/98.5,2, ".","");
             $charge = $amountCharge - $amount;
             if($amount >= 2500){
@@ -133,7 +135,7 @@ class RegisterController extends Controller
             if($charge > 2000){
                 $charge = 2000;
             }
-            return view('auth.continue',['request'=>$request, 'charge'=>$charge]);
+            return view('auth.continue',['request'=>$request, 'category'=>$category, 'charge'=>$charge]);
         }
 
 
@@ -159,7 +161,9 @@ class RegisterController extends Controller
         ]);
             try{
                 $paystack = new Paystack(env('PAYSTACK_SECRET_KEY'));
-                $amount = env('APP_REG_FEE'); //$request->amount;
+                $amount = $category = SubscriptionPlan::find($request->membershipCategory);
+
+                $amount = !empty($category) ? $category->naira_amount : 0; env('APP_REG_FEE'); //$request->amount;
 
                 $amountCharge = number_format(($amount * 100)/98.5,2, ".",""); //Amount plus charge
                 $charge = $amountCharge - $amount;
