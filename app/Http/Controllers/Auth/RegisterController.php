@@ -161,7 +161,7 @@ class RegisterController extends Controller
         ]);
             try{
                 $paystack = new Paystack(env('PAYSTACK_SECRET_KEY'));
-                $amount = $category = SubscriptionPlan::find($request->membershipCategory);
+                $category = SubscriptionPlan::find($request->membershipCategory);
 
                 $amount = !empty($category) ? $category->naira_amount : 0; env('APP_REG_FEE'); //$request->amount;
 
@@ -184,8 +184,10 @@ class RegisterController extends Controller
                 $builder->withTransaction(3);
                 $builder->withMembership($request->membershipCategory);
                 $metadata = $builder->build();
+                $convert = ($amount + $charge) * 100;
+                $val = (int)round($convert);
                 $tranx = $paystack->transaction->initialize([
-                    'amount'=>($amount+$charge)*100,       // in kobo
+                    'amount'=>$val,       // in kobo
                     'email'=>$request->email,         // unique to customers
                     //'reference'=>sha1(time()), // unique to transactions
                     'metadata'=>$metadata
